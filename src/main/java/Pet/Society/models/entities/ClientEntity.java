@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class ClientEntity extends UserEntity {
     private boolean isFoundation;
-    @OneToMany
+    @OneToMany(mappedBy = "client")
     private List<PetEntity> pets;
 
     public ClientEntity(long id, String name, String surname, String phone, String DNI, String email) {

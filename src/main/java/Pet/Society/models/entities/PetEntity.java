@@ -7,11 +7,13 @@ import jakarta.persistence.*;
 public class PetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false, name = "pet_id")
     private long id;
     private String name;
     private int age;
     private boolean isActive;
     @ManyToOne
+    @JoinColumn(name = "id")
     private ClientEntity client;
 
     public PetEntity(long id, String name, int age, boolean isActive) {

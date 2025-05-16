@@ -1,8 +1,12 @@
 package Pet.Society.models.entities;
 
 import Pet.Society.models.enums.Speciality;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 
+@Entity
 public class DoctorEntity extends UserEntity{
+    @Enumerated
     private Speciality speciality;
 
     public DoctorEntity(long id, String name, String surname, String phone, String DNI, String email, Speciality speciality) {
@@ -15,6 +19,8 @@ public class DoctorEntity extends UserEntity{
         this.speciality = speciality;
     }
 
+    public DoctorEntity() {
+    }
 
     public Speciality getSpeciality() {
         return speciality;

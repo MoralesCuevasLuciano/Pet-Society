@@ -2,19 +2,28 @@ package Pet.Society.models.entities;
 
 import Pet.Society.models.enums.Reason;
 import Pet.Society.models.enums.Status;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.time.LocalDateTime;
-
+@Entity
 public class AppointmentEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDateTime date;
     private Reason reason;
     private Status status;
+    @ManyToOne
     private DoctorEntity doctor;
+    @OneToOne
+    private DiagnosesEntity diagnoses;
+    @ManyToOne
     private PetEntity pet;
     private boolean approved;
+
+    public AppointmentEntity() {
+    }
 
     public AppointmentEntity(LocalDateTime date, Reason reason, Status status, DoctorEntity doctor, PetEntity pet, boolean approved) {
         this.date = date;

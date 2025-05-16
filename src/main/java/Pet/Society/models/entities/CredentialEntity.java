@@ -1,13 +1,22 @@
 package Pet.Society.models.entities;
 
 import Pet.Society.models.enums.Role;
+import jakarta.persistence.*;
 
+@Entity
 public class CredentialEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @OneToOne
     private ClientEntity client;
     private String username;
     private String password;
     private Role role;
+
+
+    public CredentialEntity() {
+    }
 
     public CredentialEntity(long id, ClientEntity client, String username, String password, Role role) {
         this.id = id;
