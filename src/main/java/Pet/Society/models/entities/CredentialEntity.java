@@ -9,7 +9,7 @@ public class CredentialEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne
-    private ClientEntity client;
+    private UserEntity user;
     private String username;
     private String password;
     private Role role;
@@ -18,19 +18,20 @@ public class CredentialEntity {
     public CredentialEntity() {
     }
 
-    public CredentialEntity(long id, ClientEntity client, String username, String password, Role role) {
+    public CredentialEntity(long id, UserEntity user, String username, String password, Role role) {
         this.id = id;
-        this.client = client;
+        this.user = user;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public CredentialEntity(ClientEntity client, String username, String password, Role role) {
-        this.client = client;
-        this.username = username;
-        this.password = password;
-        this.role = role;
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public long getId() {
@@ -41,13 +42,6 @@ public class CredentialEntity {
         this.id = id;
     }
 
-    public ClientEntity getClient() {
-        return client;
-    }
-
-    public void setClient(ClientEntity client) {
-        this.client = client;
-    }
 
     public String getUsername() {
         return username;
