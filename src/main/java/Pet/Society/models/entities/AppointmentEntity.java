@@ -14,7 +14,7 @@ public class AppointmentEntity {
     private Reason reason;
     private Status status;
     @ManyToOne
-    private String doctor;
+    private DoctorEntity doctor;
     @OneToOne
     private DiagnosesEntity diagnoses;
     @ManyToOne
@@ -26,7 +26,7 @@ public class AppointmentEntity {
     public AppointmentEntity() {
     }
 
-    public AppointmentEntity(LocalDateTime date, Reason reason, Status status, String doctor, PetEntity pet, boolean approved) {
+    public AppointmentEntity(LocalDateTime date, Reason reason, Status status, DoctorEntity doctor, PetEntity pet, boolean approved) {
         this.date = date;
         this.reason = reason;
         this.status = status;
@@ -35,7 +35,7 @@ public class AppointmentEntity {
         this.approved = approved;
     }
 
-    public AppointmentEntity(long id, LocalDateTime date, Reason reason, Status status, String doctor, PetEntity pet, boolean approved) {
+    public AppointmentEntity(long id, LocalDateTime date, Reason reason, Status status, DoctorEntity doctor, PetEntity pet, boolean approved) {
         this.id = id;
         this.date = date;
         this.reason = reason;
@@ -77,11 +77,11 @@ public class AppointmentEntity {
         this.status = status;
     }
 
-    public String getDoctor() {
+    public DoctorEntity getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(String doctor) {
+    public void setDoctor(DoctorEntity doctor) {
         this.doctor = doctor;
     }
 

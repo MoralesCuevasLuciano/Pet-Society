@@ -30,7 +30,7 @@ public class RegisterService {
         credentialEntity.setPassword(registerDTO.getPassword());
         credentialEntity.setRole(Role.CLIENT);
 
-        clientService.save(clientEntity);
-        credentialService.save(credentialEntity);
+        ///clientService.save(clientEntity);
+        ///  credentialService.save(credentialEntity);
     }
 }
