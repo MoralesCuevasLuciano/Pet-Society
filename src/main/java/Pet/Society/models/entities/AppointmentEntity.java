@@ -3,7 +3,6 @@ package Pet.Society.models.entities;
 import Pet.Society.models.enums.Reason;
 import Pet.Society.models.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PositiveOrZero;
 
 import java.time.LocalDateTime;
 @Entity
@@ -15,17 +14,19 @@ public class AppointmentEntity {
     private Reason reason;
     private Status status;
     @ManyToOne
-    private DoctorEntity doctor;
+    private String doctor;
     @OneToOne
     private DiagnosesEntity diagnoses;
     @ManyToOne
     private PetEntity pet;
     private boolean approved;
+    @ManyToOne
+    private ClientEntity client;
 
     public AppointmentEntity() {
     }
 
-    public AppointmentEntity(LocalDateTime date, Reason reason, Status status, DoctorEntity doctor, PetEntity pet, boolean approved) {
+    public AppointmentEntity(LocalDateTime date, Reason reason, Status status, String doctor, PetEntity pet, boolean approved) {
         this.date = date;
         this.reason = reason;
         this.status = status;
@@ -34,7 +35,7 @@ public class AppointmentEntity {
         this.approved = approved;
     }
 
-    public AppointmentEntity(long id, LocalDateTime date, Reason reason, Status status, DoctorEntity doctor, PetEntity pet, boolean approved) {
+    public AppointmentEntity(long id, LocalDateTime date, Reason reason, Status status, String doctor, PetEntity pet, boolean approved) {
         this.id = id;
         this.date = date;
         this.reason = reason;
@@ -76,11 +77,11 @@ public class AppointmentEntity {
         this.status = status;
     }
 
-    public DoctorEntity getDoctor() {
+    public String getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(DoctorEntity doctor) {
+    public void setDoctor(String doctor) {
         this.doctor = doctor;
     }
 
@@ -100,4 +101,11 @@ public class AppointmentEntity {
         this.approved = approved;
     }
 
+    public ClientEntity getClient() {
+        return client;
+    }
+
+    public void setClient(ClientEntity client) {
+
+    }
 }

@@ -1,6 +1,8 @@
 package Pet.Society.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -9,7 +11,10 @@ public class PetEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false, name = "pet_id")
     private long id;
+    @NotNull(message = "El nombre no puede ser nulo")
+    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
     private String name;
+    @NotNull(message = "La edad no puede ser nula")
     private int age;
     private boolean isActive;
     @ManyToOne
@@ -64,4 +69,9 @@ public class PetEntity {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    public void setClient(ClientEntity client) {
+
+    }
+
 }
