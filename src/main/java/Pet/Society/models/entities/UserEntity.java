@@ -15,16 +15,16 @@ public abstract class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = 50, message = "Error en nombre")
     private String name;
     @NotNull
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = 50, message = "Error en apellido")
     private String surname;
     @NotNull
-    @Size(min = 9, max = 20)
+    @Size(min = 9, max = 20, message = "Error en celular")
     private String phone;
     @NotNull
-    @Size(min = 7, max = 8)
+    @Size(min = 7, max = 8, message = "Error en dni")
     private String dni;
     @NotNull
     @Email

@@ -12,20 +12,20 @@ public class ClientEntity extends UserEntity {
     @OneToMany(mappedBy = "client")
     private List<PetEntity> pets;
 
-    public ClientEntity(long id, String name, String surname, String phone, String DNI, String email) {
-        super(id, name, surname, phone, DNI, email);
+    public ClientEntity(long id, String name, String surname, String phone, String dni, String email) {
+        super(id, name, surname, phone, dni, email);
     }
 
-    public ClientEntity(String name, String surname, String phone, String DNI, String email) {
-        super(name, surname, phone, DNI, email);
+    public ClientEntity(String name, String surname, String phone, String dni, String email) {
+        super(name, surname, phone, dni, email);
     }
 
-    @OneToMany(mappedBy = "client")
-    private List<AppointmentEntity> appointments;
 
     public ClientEntity() {
         super();
     }
+
+
 
     public boolean isFoundation() {
         return isFoundation;
@@ -48,7 +48,5 @@ public class ClientEntity extends UserEntity {
     }
 
 
-    public List<AppointmentEntity> getAppointments() {
-        return appointments;
-    }
+
 }

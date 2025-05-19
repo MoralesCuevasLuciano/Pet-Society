@@ -20,8 +20,6 @@ public class AppointmentEntity {
     @ManyToOne
     private PetEntity pet;
     private boolean approved;
-    @ManyToOne
-    private ClientEntity client;
 
     public AppointmentEntity() {
     }
@@ -101,11 +99,5 @@ public class AppointmentEntity {
         this.approved = approved;
     }
 
-    public ClientEntity getClient() {
-        return client;
-    }
 
-    public void setClient(ClientEntity client) {
-
-    }
 }
