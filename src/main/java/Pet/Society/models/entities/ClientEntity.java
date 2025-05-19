@@ -20,6 +20,9 @@ public class ClientEntity extends UserEntity {
         super(name, surname, phone, DNI, email);
     }
 
+    @OneToMany(mappedBy = "client")
+    private List<AppointmentEntity> appointments;
+
     public ClientEntity() {
         super();
     }
@@ -41,4 +44,11 @@ public class ClientEntity extends UserEntity {
     }
 
 
+    public void setPetName(String petName) {
+    }
+
+
+    public List<AppointmentEntity> getAppointments() {
+        return appointments;
+    }
 }

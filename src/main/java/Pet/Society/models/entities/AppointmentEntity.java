@@ -3,7 +3,6 @@ package Pet.Society.models.entities;
 import Pet.Society.models.enums.Reason;
 import Pet.Society.models.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PositiveOrZero;
 
 import java.time.LocalDateTime;
 @Entity
@@ -21,6 +20,8 @@ public class AppointmentEntity {
     @ManyToOne
     private PetEntity pet;
     private boolean approved;
+    @ManyToOne
+    private ClientEntity client;
 
     public AppointmentEntity() {
     }
@@ -100,4 +101,11 @@ public class AppointmentEntity {
         this.approved = approved;
     }
 
+    public ClientEntity getClient() {
+        return client;
+    }
+
+    public void setClient(ClientEntity client) {
+
+    }
 }

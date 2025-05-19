@@ -1,5 +1,6 @@
 package Pet.Society.services;
 
+
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
@@ -9,10 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import java.util.Optional;
 
 @Service
 public class ClientService {
+
 
     @Autowired
     private ClientRepository clientRepository;
@@ -33,3 +36,4 @@ public class ClientService {
         this.clientRepository.save(clientToModify);
     }
 }
+
