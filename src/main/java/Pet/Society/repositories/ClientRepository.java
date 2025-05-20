@@ -25,15 +25,8 @@ import static java.sql.DriverManager.getConnection;
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
 
-    // Buscar cliente por email
-    Optional<ClientEntity> findByEmail(String email);
 
-    // Buscar clientes por apellido
-    List<ClientEntity> findBySurname(String surname);
-
-    // Consulta personalizada para buscar clientes que son fundaciones
-    @Query("SELECT c FROM ClientEntity c WHERE c.isFoundation = true")
-    List<ClientEntity> findAllFoundations();
+    Optional<ClientEntity> findByDni(String dni);
 }
 
 

@@ -28,6 +28,11 @@ public class ClientService {
             }
     }
 
+    public ClientEntity findById(int id) {
+
+    }
+
+    //SOLO RECIBE UN JSON COMPLETO.
     public void update(ClientEntity clientToModify, Long id) {
         Optional<ClientEntity> existingClient = this.clientRepository.findById(id);
         if (existingClient.isEmpty()){
@@ -35,5 +40,20 @@ public class ClientService {
         }
         this.clientRepository.save(clientToModify);
     }
+
+    public void unSubscribe(Long id){
+        Optional<ClientEntity> existingClient = this.clientRepository.findById(id);
+        if (existingClient.isEmpty()){
+            throw new UserNotFoundException("User does not exist");
+        }
+        ClientEntity clientToUnsubscribe = existingClient.get();
+        clientToUnsubscribe.setSubscribed(false);
+        this.clientRepository.save(clientToUnsubscribe);
+    }
+
+    public Optional<ClientEntity> findByDNI(String DNI){
+        return this.clientRepository.findByDni(DNI);
+    }
+
 }
 

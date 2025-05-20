@@ -25,15 +25,12 @@ public abstract class UserEntity {
     private String phone;
     @NotNull
     @Size(min = 7, max = 8, message = "Error en dni")
+    @Column(unique = true)
     private String dni;
     @NotNull
     @Email
-//    @Pattern(
-//            regexp = "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$",
-//            message = "El email no tiene un formato válido"
-//    )
     private String email;
-    @ColumnDefault("True")
+    @ColumnDefault("1")
     private boolean isSubscribed;
 
 
