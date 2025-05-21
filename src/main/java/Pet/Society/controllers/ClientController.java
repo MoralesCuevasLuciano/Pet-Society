@@ -28,13 +28,13 @@ public class ClientController {
 
     }
         
-    @PatchMapping("/update/{id}") ///SOLO FUNCIONA CON JSON COMPLETO
+    @PatchMapping("/update/{id}")
     public ResponseEntity<ClientEntity> update(@RequestBody ClientEntity client, @PathVariable long id) {
             this.clientService.update(client,id);
             return ResponseEntity.ok(client);
     }
 
-    @PatchMapping("/unsubscribe/{id}") ///SOLO FUNCIONA CON JSON COMPLETO
+    @PatchMapping("/unsubscribe/{id}")
     public ResponseEntity<String> unsubscribe(@PathVariable long id) {
         this.clientService.unSubscribe(id);
         return ResponseEntity.status(HttpStatus.OK).body("Client unsubscribed successfully");

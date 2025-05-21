@@ -18,22 +18,30 @@ public class PetEntity {
     @NotNull(message = "La edad no puede ser nula")
     private int age;
     @ColumnDefault("1")
-    private boolean isActive;
+    private boolean active = true;
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_cliente")
+    @NotNull(message = "La id_cliente no puede ser nula")
     private ClientEntity client;
 
-    public PetEntity(long id, String name, int age, boolean isActive) {
+    public PetEntity(long id, String name, int age, boolean active) {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.isActive = isActive;
+        this.active = active;
     }
 
-    public PetEntity(String name, int age, boolean isActive) {
+    public PetEntity(String name, int age, boolean active) {
         this.name = name;
         this.age = age;
-        this.isActive = isActive;
+        this.active = active;
+    }
+
+    public PetEntity(String name, int age, boolean active, ClientEntity client) {
+        this.name = name;
+        this.age = age;
+        this.active = active;
+        this.client = client;
     }
 
     public PetEntity() {
@@ -65,15 +73,29 @@ public class PetEntity {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.active = active;
+    }
+
+    public ClientEntity getClient() {
+        return client;
     }
 
     public void setClient(ClientEntity client) {
-
+        this.client = client;
     }
 
+    @Override
+    public String toString() {
+        return "PetEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", active=" + active +
+                ", client=" + client +
+                '}';
+    }
 }

@@ -26,25 +26,12 @@ public class ClientEntity extends UserEntity {
     }
 
 
-
     public Boolean getFoundation() {
         return foundation;
     }
 
     public void setFoundation(Boolean foundation) {
         this.foundation = foundation;
-    }
-
-    public List<PetEntity> getPets() {
-        return pets;
-    }
-
-    public void setPets(List<PetEntity> pets) {
-        this.pets = pets;
-    }
-
-
-    public void setPetName(String petName) {
     }
 
 
