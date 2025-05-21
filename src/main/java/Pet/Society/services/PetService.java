@@ -22,13 +22,31 @@ public class PetService {
     }
 
 
-    public PetEntity updatePet(Long id, PetEntity pet) {
-        if (!petRepository.existsById(id)) {
-         throw new PetNotFoundException("La mascota con ID: " + pet.getId() + " no existe.");
+public PetEntity updatePet(Long id, PetEntity pet) {
+    PetEntity existingPet = petRepository.findById(id)
+            .orElseThrow(() -> new PetNotFoundException("La mascota con ID: " + id + " no existe."));
+
+    /**Validar y actualizar cada campo*/
+    if (pet.getName() != null) {
+        if (pet.getName().equals(existingPet.getName())) {
+            throw new IllegalArgumentException("El nombre proporcionado ya está en uso. Por favor, elija otro.");
         }
-        pet.setId(id);
-        return petRepository.save(pet);
+        existingPet.setName(pet.getName());
+    } else {
+        throw new IllegalArgumentException("El campo 'nombre' no puede ser nulo. Por favor, complételo.");
     }
+
+    if (pet.getAge() != 0) {
+        existingPet.setAge(pet.getAge());
+    } else {
+        throw new IllegalArgumentException("El campo 'edad' no puede ser nulo. Por favor, complételo.");
+    }
+
+
+
+
+    return petRepository.save(existingPet);
+}
 
     public void deletePet(Long id) {
         if (!petRepository.existsById(id)) {
