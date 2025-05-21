@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 public class ClientEntity extends UserEntity {
-    private boolean isFoundation;
+    private Boolean foundation = true;
     @OneToMany(mappedBy = "client")
     private List<PetEntity> pets;
 
@@ -27,12 +27,12 @@ public class ClientEntity extends UserEntity {
 
 
 
-    public boolean isFoundation() {
-        return isFoundation;
+    public Boolean getFoundation() {
+        return foundation;
     }
 
-    public void setFoundation(boolean foundation) {
-        isFoundation = foundation;
+    public void setFoundation(Boolean foundation) {
+        this.foundation = foundation;
     }
 
     public List<PetEntity> getPets() {

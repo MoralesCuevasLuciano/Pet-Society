@@ -2,10 +2,9 @@ package Pet.Society.services;
 
 
 import Pet.Society.models.entities.ClientEntity;
+import Pet.Society.models.exceptions.UserExistsException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
-import ch.qos.logback.core.net.server.Client;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,11 +21,11 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     public ClientEntity save(ClientEntity client) {
-            try{
-                return this.clientRepository.save(client);
-            }catch (Exception e){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Client");
-            }
+        Optional<ClientEntity> clientEntity= this.clientRepository.findByDni(client.getDni());
+          if(clientEntity.isPresent()) {
+              throw new UserExistsException("User already exists");
+          }
+          return clientRepository.save(client);
     }
 
     public ClientEntity findById(long id) {
@@ -39,7 +38,8 @@ public class ClientService {
         if (existingClient.isEmpty()){
             throw new UserNotFoundException("User does not exist");
         }
-        BeanUtils.copyProperties(clientToModify, existingClient.get(), "id");
+        clientToModify.setId(id);
+        takeAttributes(clientToModify, existingClient.get());
         this.clientRepository.save(clientToModify);
     }
 
@@ -53,8 +53,19 @@ public class ClientService {
         this.clientRepository.save(clientToUnsubscribe);
     }
 
-    public Optional<ClientEntity> findByDNI(String DNI){
-        return this.clientRepository.findByDni(DNI);
+    public ClientEntity findByDNI(String DNI){
+        return this.clientRepository.findByDni(DNI).orElseThrow(()-> new UserExistsException("User does not exist"));
+    }
+
+    public ClientEntity takeAttributes(ClientEntity origin, ClientEntity destination) {
+        if(origin.getName() == null){origin.setPhone(destination.getPhone());}
+        if(origin.getSurname() == null){origin.setSurname(destination.getSurname());}
+        if(origin.getEmail() == null){origin.setEmail(destination.getEmail());}
+        if(origin.getDni() == null){origin.setDni(destination.getDni());}
+        if(!origin.getFoundation()){origin.setFoundation(destination.getFoundation());}
+        if(origin.getPhone()==null){origin.setPhone(destination.getPhone());}
+
+        return origin;
     }
 
 }

@@ -4,6 +4,7 @@ import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.services.ClientService;
 import ch.qos.logback.core.net.server.Client;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,9 @@ public class ClientController {
 
     @PostMapping("/create")
     public ResponseEntity<ClientEntity> createClient(@Valid @RequestBody ClientEntity client) {
-        try{
             ClientEntity clientEntity = clientService.save(client);
             return new ResponseEntity<>(clientEntity, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+
     }
         
     @PatchMapping("/update/{id}") ///SOLO FUNCIONA CON JSON COMPLETO
@@ -36,10 +34,20 @@ public class ClientController {
             return ResponseEntity.ok(client);
     }
 
-    @PatchMapping("/unsubscribe") ///SOLO FUNCIONA CON JSON COMPLETO
+    @PatchMapping("/unsubscribe/{id}") ///SOLO FUNCIONA CON JSON COMPLETO
     public ResponseEntity<String> unsubscribe(@PathVariable long id) {
         this.clientService.unSubscribe(id);
         return ResponseEntity.status(HttpStatus.OK).body("Client unsubscribed successfully");
+    }
+
+    @GetMapping("/findByDni/{dni}")
+    public ResponseEntity<ClientEntity> findByDni(@PathVariable String dni){
+        return ResponseEntity.ok(this.clientService.findByDNI(dni));
+    }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<ClientEntity> findById(@PathVariable long id) {
+        return ResponseEntity.ok(this.clientService.findById(id));
     }
 
 

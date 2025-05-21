@@ -28,10 +28,10 @@ public abstract class UserEntity {
     @Column(unique = true)
     private String dni;
     @NotNull
-    @Email
+    @Email(message = "Error en email")
     private String email;
-    @ColumnDefault("1")
-    private boolean isSubscribed;
+    @ColumnDefault("true")
+    private Boolean subscribed=true;
 
 
 
@@ -56,12 +56,12 @@ public abstract class UserEntity {
 
     }
 
-    public boolean isSubscribed() {
-        return isSubscribed;
+    public Boolean getSubscribed() {
+        return subscribed;
     }
 
-    public void setSubscribed(boolean subscribed) {
-        isSubscribed = subscribed;
+    public void setSubscribed(Boolean subscribed) {
+        this.subscribed = subscribed;
     }
 
     public long getId() {
