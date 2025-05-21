@@ -36,11 +36,11 @@ public class ClientController {
             return ResponseEntity.ok(client);
     }
 
-    @PatchMapping("/unsubscribe") ///SOLO FUNCIONA CON JSON COMPLETO
+    /*@PatchMapping("/unsubscribe") ///SOLO FUNCIONA CON JSON COMPLETO
     public ResponseEntity<ClientEntity> unsubscribe(@PathVariable long id) {
         this.clientService.unSubscribe(id);
         return ResponseEntity.ok(clientService.);
-    }
+    }*/ // fue comentada porque el return estaba inclompleto y no me dejaba compliar, solucionar para descomentar
 
 
 

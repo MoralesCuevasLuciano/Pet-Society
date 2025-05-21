@@ -28,9 +28,9 @@ public class ClientService {
             }
     }
 
-    public ClientEntity findById(int id) {
+    /*public ClientEntity findById(int id) {
 
-    }
+    }*/ // Metodo incompleto, descomentar cuando esté hecho
 
     //SOLO RECIBE UN JSON COMPLETO.
     public void update(ClientEntity clientToModify, Long id) {
