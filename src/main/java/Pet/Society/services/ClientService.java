@@ -5,6 +5,7 @@ import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
 import ch.qos.logback.core.net.server.Client;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,8 @@ public class ClientService {
             }
     }
 
-    public ClientEntity findById(int id) {
-
+    public ClientEntity findById(long id) {
+        return this.clientRepository.findById(id).stream().findFirst().orElseThrow(() -> new UserNotFoundException("Client not found"));
     }
 
     //SOLO RECIBE UN JSON COMPLETO.
@@ -38,6 +39,7 @@ public class ClientService {
         if (existingClient.isEmpty()){
             throw new UserNotFoundException("User does not exist");
         }
+        BeanUtils.copyProperties(clientToModify, existingClient.get(), "id");
         this.clientRepository.save(clientToModify);
     }
 

@@ -37,9 +37,9 @@ public class ClientController {
     }
 
     @PatchMapping("/unsubscribe") ///SOLO FUNCIONA CON JSON COMPLETO
-    public ResponseEntity<ClientEntity> unsubscribe(@PathVariable long id) {
+    public ResponseEntity<String> unsubscribe(@PathVariable long id) {
         this.clientService.unSubscribe(id);
-        return ResponseEntity.ok(clientService.);
+        return ResponseEntity.status(HttpStatus.OK).body("Client unsubscribed successfully");
     }
 
 
