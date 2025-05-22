@@ -35,14 +35,13 @@ public class PetController {
 
     /**
      * update
-    */
+     */
     @PatchMapping("/update/{id}")
     public ResponseEntity<PetEntity> updatePet(@PathVariable Long id, @RequestBody PetDTO dto) {
         try {
             PetEntity updatedPet = petService.updatePet(id, dto);
             return new ResponseEntity<>(updatedPet, HttpStatus.OK);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
@@ -55,10 +54,10 @@ public class PetController {
         try {
             PetEntity pet = petService.getPetById(id);
             PetDTO dto = new PetDTO(
-                pet.getName(),
-                pet.getAge(),
-                false,
-                pet.getClient().getId()
+                    pet.getName(),
+                    pet.getAge(),
+                    false,
+                    pet.getClient().getId()
             );
             PetEntity petEntity = petService.updatePet(id, dto);
             return ResponseEntity.ok(petEntity);
@@ -87,12 +86,12 @@ public class PetController {
     }
 
     /**
-     * Listar todos y devolver DTOs
+     * Listar todos los registros de mascotas
      */
-    @GetMapping("/findAll")
-    public ResponseEntity<List<PetDTO>> getAllPets() {
+    @GetMapping("/findAllByClientId/{id}")
+    public ResponseEntity<List<PetDTO>> getAllPetsByClientId(@PathVariable("id") Long id) {
         try {
-            Iterable<PetEntity> pets = petService.getAllPets();
+            Iterable<PetEntity> pets = petService.getAllPetsByClientId(id);
             List<PetDTO> dtos = new ArrayList<>();
             for (PetEntity pet : pets) {
                 dtos.add(new PetDTO(

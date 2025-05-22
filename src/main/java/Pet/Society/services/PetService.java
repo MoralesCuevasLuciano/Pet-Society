@@ -73,4 +73,11 @@ public class PetService {
     public Iterable<PetEntity> getAllPets() {
         return petRepository.findAll();
     }
+
+    public Iterable<PetEntity> getAllPetsByClientId(Long clientId) {
+        ClientEntity client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente con ID " + clientId + " no encontrado."));
+
+        return petRepository.findAllByClient(client);
+    }
 }

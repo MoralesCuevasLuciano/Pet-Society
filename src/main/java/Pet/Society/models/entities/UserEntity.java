@@ -31,7 +31,7 @@ public abstract class UserEntity {
     @Email(message = "Error en email")
     private String email;
     @ColumnDefault("true")
-    private Boolean subscribed=true;
+    private Boolean subscribed;
 
 
 
