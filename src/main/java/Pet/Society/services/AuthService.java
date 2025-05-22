@@ -25,7 +25,6 @@ public class AuthService {
         } else {
             throw new LoginErrorException("Invalid username or password");
         }
-
     }
 
 }

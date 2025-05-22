@@ -29,6 +29,7 @@ public abstract class UserEntity {
     private String dni;
     @NotNull
     @Email
+    @Column(unique = true)
     private String email;
     @ColumnDefault("1")
     private boolean isSubscribed;
@@ -113,5 +114,6 @@ public abstract class UserEntity {
     }
 
 
-
+    public void setDNI(String dni) {
+    }
 }

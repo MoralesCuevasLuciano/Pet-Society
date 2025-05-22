@@ -25,4 +25,9 @@ public class GlobalControllerException {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("The user is unsubscribed");
     }
 
+    @ExceptionHandler(UserAttributeException.class)
+    public ResponseEntity<String> handleUserAttributeException(UserAttributeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The data entered is not correct");
+    }
+
 }

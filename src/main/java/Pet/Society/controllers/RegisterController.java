@@ -1,0 +1,22 @@
+package Pet.Society.controllers;
+
+import Pet.Society.models.dto.RegisterDTO;
+import Pet.Society.services.RegisterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("register")
+public class RegisterController {
+
+    @Autowired
+    private RegisterService registerService;
+
+    @PostMapping("/new")
+    public ResponseEntity<String> registerClient(@RequestBody RegisterDTO dto) {
+        registerService.registerNewClient(dto);
+        return ResponseEntity.ok("Successfully registered user");
+    }
+}
+
