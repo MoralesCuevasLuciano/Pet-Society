@@ -1,6 +1,7 @@
 package Pet.Society.models.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -30,8 +31,9 @@ public abstract class UserEntity {
     @NotNull
     @Email(message = "Error en email")
     private String email;
+    @NotNull
     @ColumnDefault("true")
-    private Boolean subscribed;
+    private Boolean subscribed = true;
 
 
 

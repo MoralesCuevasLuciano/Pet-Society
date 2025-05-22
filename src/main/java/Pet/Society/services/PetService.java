@@ -56,7 +56,7 @@ public class PetService {
         }
 
         if (pet.isActive() != existingPet.isActive()) {
-            existingPet.setActive(false);
+            existingPet.setActive(pet.isActive());
         }
         return petRepository.save(existingPet);
     }
