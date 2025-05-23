@@ -24,7 +24,7 @@ public class PetService {
 
     public PetEntity createPet(PetDTO dto) {
         ClientEntity client = clientRepository.findById(dto.getClientId())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente con ID " + dto.getClientId() + " no encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Cliente with ID " + dto.getClientId() + " not found."));
 
         PetEntity pet = new PetEntity();
         pet.setName(dto.getName());
