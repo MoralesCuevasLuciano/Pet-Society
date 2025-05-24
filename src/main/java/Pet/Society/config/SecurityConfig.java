@@ -10,10 +10,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // importante: desactiva CSRF para evitar 403
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/client/create").permitAll()
-                        .anyRequest().permitAll() // para pruebas, deja todo libre
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

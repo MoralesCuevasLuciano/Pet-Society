@@ -10,6 +10,7 @@ public class CredentialEntity {
     private long id;
     @OneToOne
     private UserEntity user;
+    @Column(unique = true)
     private String username;
     private String password;
     private Role role;

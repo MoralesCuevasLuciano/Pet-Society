@@ -4,33 +4,40 @@ import Pet.Society.models.dto.RegisterDTO;
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.CredentialEntity;
 import Pet.Society.models.enums.Role;
-import Pet.Society.repositories.ClientRepository;
+import Pet.Society.models.exceptions.UserAttributeException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RegisterService {
-    private final ClientService clientService;
-    private final CredentialService credentialService;
+    @Autowired
+    private ClientService clientService;
+    @Autowired
+    private CredentialService credentialService;
 
-    public RegisterService(ClientService clientService, CredentialService credentialService) {
-        this.clientService = clientService;
-        this.credentialService = credentialService;
-    }
 
-    public void registerNewUsuario(RegisterDTO registerDTO){
+
+    public void registerNewClient(RegisterDTO registerDTO) {
+
+
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setName(registerDTO.getName());
         clientEntity.setSurname(registerDTO.getSurname());
-        clientEntity.setFoundation(registerDTO.isFoundation());
-        //clientEntity.setDNI(registerDTO.getDNI());
+        clientEntity.setFoundation(false);
+        clientEntity.setDni(registerDTO.getDni());
         clientEntity.setEmail(registerDTO.getEmail());
         clientEntity.setPhone(registerDTO.getPhone());
 
         CredentialEntity credentialEntity = new CredentialEntity();
-        //credentialEntity.setClient(clientEntity);
         credentialEntity.setUsername(registerDTO.getUsername());
         credentialEntity.setPassword(registerDTO.getPassword());
         credentialEntity.setRole(Role.CLIENT);
+        credentialEntity.setUser(clientService.save(clientEntity));
 
-        ///clientService.save(clientEntity);
-        ///  credentialService.save(credentialEntity);
+
+        credentialService.save(credentialEntity);
     }
+
+
+
 }

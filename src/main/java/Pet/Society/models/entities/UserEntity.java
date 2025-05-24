@@ -29,7 +29,8 @@ public abstract class UserEntity {
     @Column(unique = true)
     private String dni;
     @NotNull
-    @Email(message = "Error en email")
+    @Email
+    @Column(unique = true)
     private String email;
     @NotNull
     @ColumnDefault("true")

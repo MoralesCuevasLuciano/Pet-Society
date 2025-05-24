@@ -38,4 +38,5 @@ public class CredentialService {
     public Optional<CredentialEntity> findByUsernameAndPassword(String username, String password) {
         return credentialRepository.findByUsernameAndPassword(username, password);
     }
+
 }
