@@ -32,6 +32,14 @@ public class DoctorService  {
         return doctor.get();
     }
 
+    public DoctorEntity findByDni(String dni) {
+        Optional<DoctorEntity> doctor = this.doctorRepository.findByDni(dni);
+        if (doctor.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found");
+        }
+        return doctor.get();
+    }
+
     public void update(DoctorEntity doctorToModify, Long id) {
         Optional<DoctorEntity> existingDoctor = this.doctorRepository.findById(id);
         if (existingDoctor.isEmpty()){
@@ -58,7 +66,7 @@ public class DoctorService  {
     }
 
     public boolean doctorExist(String dni){
-        Optional<DoctorEntity> existing = doctorRepository.findByDNI(dni);
+        Optional<DoctorEntity> existing = doctorRepository.findByDni(dni);
         if(existing.isEmpty())
             return false;
         return true;

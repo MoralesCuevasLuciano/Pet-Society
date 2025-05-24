@@ -2,6 +2,7 @@ package Pet.Society.controllers;
 
 import Pet.Society.models.dto.RegisterDTO;
 import Pet.Society.services.RegisterService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class RegisterController {
     private RegisterService registerService;
 
     @PostMapping("/new")
-    public ResponseEntity<String> registerClient(@RequestBody RegisterDTO dto) {
+    public ResponseEntity<String> registerClient(@Valid @RequestBody RegisterDTO dto) {
         registerService.registerNewClient(dto);
         return ResponseEntity.ok("Successfully registered user");
     }

@@ -16,64 +16,34 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
-    @PostMapping("/create")
+    @PostMapping("/create") //WORKS
     public ResponseEntity<DoctorEntity> createDoctor(@Valid @RequestBody DoctorEntity doctor) {
-        try {
-            DoctorEntity doctorEntity = doctorService.save(doctor);
-            return new ResponseEntity<>(doctorEntity, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        DoctorEntity doctorEntity = doctorService.save(doctor);
+        return new ResponseEntity<>(doctorEntity, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/update/{id}") //WORKS
     public ResponseEntity<DoctorEntity> updateDoctor(@Valid @RequestBody DoctorEntity doctor, @PathVariable Long id) {
-        try {
-            doctorService.update(doctor, id);
-            return new ResponseEntity<>(doctor, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        doctorService.update(doctor, id);
+        return new ResponseEntity<>(doctor, HttpStatus.OK);
+
     }
 
-    @PatchMapping("/unsubscribe/{id}")
+    @PatchMapping("/unsubscribe/{id}") //WORKS
     public ResponseEntity<DoctorEntity> unsuscribe(@PathVariable Long id) {
-        try {
-            doctorService.unSubscribe(id);
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        doctorService.unSubscribe(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find/{id}") //WORKS
     public ResponseEntity<DoctorEntity> findById(@PathVariable Long id) {
-        try {
-            DoctorEntity doctor = doctorService.findById(id);
-            return new ResponseEntity<>(doctor, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        DoctorEntity doctor = doctorService.findById(id);
+        return new ResponseEntity<>(doctor, HttpStatus.OK);
     }
 
-   /* @GetMapping("/find/dni/{dni}") {
-        public ResponseEntity<DoctorEntity> findByDNI (@PathVariable String dni){
-            try {
-                //  DoctorEntity doctor = doctorService.findByDNI(dni).get();
-                //return new ResponseEntity<>(doctor, HttpStatus.OK);
-            } catch (EntityNotFoundException e) {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            } catch (Exception e) {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
-        }
+    @GetMapping("/find/dni/{dni}") //WORKS
+    public ResponseEntity<DoctorEntity> findByDNI (@PathVariable String dni){
+        DoctorEntity doctor = doctorService.findByDni(dni);
+        return new ResponseEntity<>(doctor, HttpStatus.OK);
     }
-
-    */
 }

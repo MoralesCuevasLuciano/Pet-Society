@@ -29,12 +29,12 @@ public class GlobalControllerException {
     }
 
     @ExceptionHandler(UserAttributeException.class)
-    public ResponseEntity<String> handleUserAttributeException(UserAttributeException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The data entered is not correct");
+    public ResponseEntity<String> handlerUserAttributeException(UserAttributeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The data entered is not correct" + ex.getMessage());
     }
 
     @ExceptionHandler(LoginErrorException.class)
-    public ResponseEntity<Map<String, String>> handleLoginError(LoginErrorException ex) {
+    public ResponseEntity<Map<String, String>> handlerLoginError(LoginErrorException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("An error occurred during login", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);

@@ -1,26 +1,42 @@
 package Pet.Society.models.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+
 public class RegisterDTO {
+    @NotNull
     private String username;
+    @NotNull
+    @Size(min = 2,max = 50,message = "The password is incorrect form")
     private String password;
-    private boolean isFoundation;
+    @NotNull
+    @Size(min = 2, max = 50, message = "Error en nombre")
     private String name;
+    @NotNull
+    @Size(min = 2, max = 50, message = "Error en apellido")
     private String surname;
+    @NotNull
+    @Size(min = 9, max = 20, message = "Error at phone")
     private String phone;
-    private String DNI;
+    @NotNull
+    @Size(min = 7, max = 8, message = "Error in t")
+    private String dni;
+    @Email
+    @NotNull
     private String email;
 
     public RegisterDTO() {
     }
 
-    public RegisterDTO(String username, String password, boolean isFoundation, String name, String surname, String phone, String DNI, String email) {
+    public RegisterDTO(String username, String password, String name, String surname, String phone, String dni, String email) {
         this.username = username;
         this.password = password;
-        this.isFoundation = isFoundation;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
-        this.DNI = DNI;
+        this.dni = dni;
         this.email = email;
     }
 
@@ -41,16 +57,7 @@ public class RegisterDTO {
         this.password = password;
         return this;
     }
-
-    public boolean isFoundation() {
-        return isFoundation;
-    }
-
-    public RegisterDTO setFoundation(boolean foundation) {
-        isFoundation = foundation;
-        return this;
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -78,12 +85,12 @@ public class RegisterDTO {
         return this;
     }
 
-    public String getDNI() {
-        return DNI;
+    public String getDni() {
+        return dni;
     }
 
-    public RegisterDTO setDNI(String DNI) {
-        this.DNI = DNI;
+    public RegisterDTO setDni(String dni) {
+        this.dni = dni;
         return this;
     }
 

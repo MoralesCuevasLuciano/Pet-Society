@@ -8,5 +8,5 @@ import java.util.Optional;
 
 
 public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
-    Optional<DoctorEntity> findByDNI (String DNI);
+    Optional<DoctorEntity> findByDni (String Dni);
 }
