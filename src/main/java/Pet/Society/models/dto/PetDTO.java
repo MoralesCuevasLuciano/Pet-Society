@@ -1,12 +1,13 @@
 package Pet.Society.models.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.aspectj.weaver.ast.Not;
 
 public class PetDTO {
     @NotNull
     private String name;
-    @NotNull
+    @Positive
     private int age;
     private boolean active = true;
     @NotNull

@@ -25,12 +25,8 @@ public class PetController {
      */
     @PostMapping("/create")
     public ResponseEntity<PetEntity> createPet(@Valid @RequestBody PetDTO dto) {
-        try {
             PetEntity createdPet = petService.createPet(dto);
             return new ResponseEntity<>(createdPet, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
     }
 
     /**
@@ -38,12 +34,9 @@ public class PetController {
      */
     @PatchMapping("/update/{id}")
     public ResponseEntity<PetEntity> updatePet(@PathVariable Long id, @RequestBody PetDTO dto) {
-        try {
             PetEntity updatedPet = petService.updatePet(id, dto);
             return new ResponseEntity<>(updatedPet, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     /**
@@ -51,7 +44,7 @@ public class PetController {
      */
     @PatchMapping("/deleteActive/{id}")
     public ResponseEntity<PetEntity> deleteActive(@PathVariable Long id) {
-        try {
+
             PetEntity pet = petService.getPetById(id);
             PetDTO dto = new PetDTO(
                     pet.getName(),
@@ -61,9 +54,7 @@ public class PetController {
             );
             PetEntity petEntity = petService.updatePet(id, dto);
             return ResponseEntity.ok(petEntity);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
     }
 
     /**
@@ -71,7 +62,7 @@ public class PetController {
      */
     @GetMapping("/findForID/{id}")
     public ResponseEntity<PetDTO> getPetById(@PathVariable Long id) {
-        try {
+
             PetEntity pet = petService.getPetById(id);
             PetDTO dto = new PetDTO(
                     pet.getName(),
@@ -80,9 +71,7 @@ public class PetController {
                     pet.getClient().getId()
             );
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+
     }
 
     /**
@@ -90,7 +79,7 @@ public class PetController {
      */
     @GetMapping("/findAllByClientId/{id}")
     public ResponseEntity<List<PetDTO>> getAllPetsByClientId(@PathVariable("id") Long id) {
-        try {
+
             Iterable<PetEntity> pets = petService.getAllPetsByClientId(id);
             List<PetDTO> dtos = new ArrayList<>();
             for (PetEntity pet : pets) {
@@ -102,9 +91,7 @@ public class PetController {
                 ));
             }
             return new ResponseEntity<>(dtos, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
 }

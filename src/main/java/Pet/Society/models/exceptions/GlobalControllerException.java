@@ -25,4 +25,14 @@ public class GlobalControllerException {
         return ResponseEntity.status(HttpStatus.CONFLICT).body("The user is unsubscribed");
     }
 
+    @ExceptionHandler(PetNotFoundException.class)
+    public ResponseEntity<String> HandlerPetNotFoundException(PetNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The pet does not exist");
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> HandlerException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error processing the request");
+    }
+
 }

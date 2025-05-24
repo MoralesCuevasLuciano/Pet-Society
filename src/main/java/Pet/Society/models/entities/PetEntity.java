@@ -3,6 +3,7 @@ package Pet.Society.models.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -15,7 +16,7 @@ public class PetEntity {
     @NotNull(message = "El nombre no puede ser nulo")
     @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
     private String name;
-    @NotNull(message = "La edad no puede ser nula")
+    @Positive(message = "La edad no puede ser nula")
     private int age;
     @ColumnDefault("1")
     private boolean active = true;

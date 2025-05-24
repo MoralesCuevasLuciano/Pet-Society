@@ -4,6 +4,7 @@ import Pet.Society.models.dto.PetDTO;
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.PetEntity;
 import Pet.Society.models.exceptions.PetNotFoundException;
+import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
 import Pet.Society.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,7 +25,7 @@ public class PetService {
 
     public PetEntity createPet(PetDTO dto) {
         ClientEntity client = clientRepository.findById(dto.getClientId())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente with ID " + dto.getClientId() + " not found."));
+                .orElseThrow(() -> new UserNotFoundException("Cliente with ID " + dto.getClientId() + " not found."));
 
         PetEntity pet = new PetEntity();
         pet.setName(dto.getName());
@@ -51,7 +52,7 @@ public class PetService {
 
         if (pet.getClientId() != null){
             ClientEntity client = clientRepository.findById(pet.getClientId())
-                    .orElseThrow(() -> new EntityNotFoundException("Cliente con ID " + pet.getClientId() + " no encontrado."));
+                    .orElseThrow(() -> new UserNotFoundException("Cliente con ID " + pet.getClientId() + " no encontrado."));
             existingPet.setClient(client);
         }
 
@@ -76,7 +77,7 @@ public class PetService {
 
     public Iterable<PetEntity> getAllPetsByClientId(Long clientId) {
         ClientEntity client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente con ID " + clientId + " no encontrado."));
+                .orElseThrow(() -> new UserNotFoundException("Cliente con ID " + clientId + " no encontrado."));
 
         return petRepository.findAllByClient(client);
     }
