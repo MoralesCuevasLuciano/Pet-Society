@@ -3,11 +3,19 @@ package Pet.Society.models.dto;
 import Pet.Society.models.enums.Role;
 
 public class LoginResponseDTO {
-        public Role role;
-        public String message;
+    private Role role;
+    private String message;
 
-        public LoginResponseDTO(Role role, String message) {
-            this.role = role;
-            this.message = message;
-        }
+    public LoginResponseDTO(Role role, String message) {
+        this.role = role;
+        this.message = message;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

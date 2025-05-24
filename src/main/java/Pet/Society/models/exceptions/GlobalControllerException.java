@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GlobalControllerException {
 
@@ -28,6 +31,13 @@ public class GlobalControllerException {
     @ExceptionHandler(UserAttributeException.class)
     public ResponseEntity<String> handleUserAttributeException(UserAttributeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The data entered is not correct");
+    }
+
+    @ExceptionHandler(LoginErrorException.class)
+    public ResponseEntity<Map<String, String>> handleLoginError(LoginErrorException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("An error occurred during login", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
 }
