@@ -11,7 +11,8 @@ public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private LocalDateTime date;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private Reason reason;
     private Status status;
     @ManyToOne
@@ -25,23 +26,51 @@ public class AppointmentEntity {
     public AppointmentEntity() {
     }
 
-    public AppointmentEntity(LocalDateTime date, Reason reason, Status status, DoctorEntity doctor, PetEntity pet, boolean approved) {
-        this.date = date;
+    public AppointmentEntity(long id, LocalDateTime startDate, LocalDateTime endDate, Reason reason, Status status, DoctorEntity doctor, DiagnosesEntity diagnoses, PetEntity pet, boolean approved) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.reason = reason;
         this.status = status;
         this.doctor = doctor;
+        this.diagnoses = diagnoses;
         this.pet = pet;
         this.approved = approved;
     }
 
-    public AppointmentEntity(long id, LocalDateTime date, Reason reason, Status status, DoctorEntity doctor, PetEntity pet, boolean approved) {
-        this.id = id;
-        this.date = date;
+    public AppointmentEntity(LocalDateTime startDate, LocalDateTime endDate, Reason reason, Status status, DoctorEntity doctor, DiagnosesEntity diagnoses, PetEntity pet, boolean approved) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.reason = reason;
         this.status = status;
         this.doctor = doctor;
+        this.diagnoses = diagnoses;
         this.pet = pet;
         this.approved = approved;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public DiagnosesEntity getDiagnoses() {
+        return diagnoses;
+    }
+
+    public void setDiagnoses(DiagnosesEntity diagnoses) {
+        this.diagnoses = diagnoses;
     }
 
     public long getId() {
@@ -52,13 +81,7 @@ public class AppointmentEntity {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 
     public Reason getReason() {
         return reason;
