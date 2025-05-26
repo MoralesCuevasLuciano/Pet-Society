@@ -43,6 +43,7 @@ public class DiagnosesEntity {
         this.date = date;
     }
 
+
     public long getId() {
         return id;
     }

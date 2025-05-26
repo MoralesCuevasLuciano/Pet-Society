@@ -35,7 +35,7 @@ public class GlobalControllerException {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> HandlerException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error processing the request");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error processing the request" + ex.getMessage());
     }
 
     @ExceptionHandler(UserAttributeException.class)
