@@ -33,21 +33,23 @@ public class GlobalControllerException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The pet does not exist");
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> HandlerException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error processing the request");
-    }
 
     @ExceptionHandler(UserAttributeException.class)
     public ResponseEntity<String> handlerUserAttributeException(UserAttributeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The data entered is not correct" + ex.getMessage());
     }
 
+    //Mejor forma de colocar los errores. Mas información
     @ExceptionHandler(LoginErrorException.class)
     public ResponseEntity<Map<String, String>> handlerLoginError(LoginErrorException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("An error occurred during login", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler(DuplicatedAppointmentException.class)
+    public ResponseEntity<String> handlerDuplicatedAppointmentException(DuplicatedAppointmentException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
 }
