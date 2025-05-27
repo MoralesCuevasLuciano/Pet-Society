@@ -50,4 +50,9 @@ public class GlobalControllerException {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    @ExceptionHandler(DiagnosesNotFoundException.class)
+    public ResponseEntity<String> handlerDiagnosesNotFoundException(DiagnosesNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The diagnoses does not exist " + ex.getMessage());
+    }
+
 }
