@@ -1,5 +1,6 @@
 package Pet.Society.services;
 
+import Pet.Society.models.dto.AppointmentDTO;
 import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.entities.PetEntity;
@@ -22,6 +23,8 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private DoctorService doctorService;
+    @Autowired
+    private PetService petService;
 
     //MAYBE IS THE CORRECT WAY.
     //Si ya existe la cita; Excepcion
@@ -35,10 +38,32 @@ public class AppointmentService {
         this.appointmentRepository.save(appointment);
     }
         /// FALTA POR TOCAR, ES POSIBLE QUE SE NECESITE UN DTO
-    public AppointmentEntity save2 (LocalDateTime start, LocalDateTime end, Reason reason, DoctorEntity doctor) {
-        DoctorEntity findDoctor = this.doctorService.findById(doctor.getId());
-        AppointmentEntity appointment = new AppointmentEntity(start,end,reason,Status.SUCCESFULLY,findDoctor);
+    public AppointmentEntity save2 (AppointmentDTO appointmentDTO) {
+        DoctorEntity findDoctor = this.doctorService.findById(appointmentDTO.getDoctor().getId());
+
+        AppointmentEntity appointment = new AppointmentEntity(appointmentDTO.getStartTime()
+                , appointmentDTO.getEndTime(),
+                appointmentDTO.getReason(),
+                Status.SUCCESFULLY,
+                findDoctor);
+        if (isOverlapping(appointment)) {
+            throw new DuplicatedAppointmentException("The appointment already exists; it has the same hour.");
+        }
         return this.appointmentRepository.save(appointment);
+    }
+
+    /// FORMA 1
+    public void bookAppointment(AppointmentEntity appointment, PetEntity pet) {
+
+    }
+    /// FORMA 2
+    public void bookAppointment2(Long idAppointment, Long petId) {
+
+    }
+    //FORMA 3
+    //USANDO UN DTO, PERO DEBO MODIFICAR EL EXISTENTE.
+    public void bookAppointment3(AppointmentDTO appointmentDTO ) {
+
     }
 
     //Confirm if an Appointment doesn't overlap with another Appointment
@@ -51,8 +76,5 @@ public class AppointmentService {
                                 newAppointment.getEndDate().isAfter(existing.getStartDate())
                 );
     }
-
-
-
 
 }

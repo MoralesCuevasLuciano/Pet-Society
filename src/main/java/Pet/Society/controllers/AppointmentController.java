@@ -1,5 +1,6 @@
 package Pet.Society.controllers;
 
+import Pet.Society.models.dto.AppointmentDTO;
 import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.repositories.AppointmentRepository;
 import Pet.Society.services.AppointmentService;
@@ -21,10 +22,9 @@ public class AppointmentController {
     }
     //prueba, es posible que se necesite un DTO
     @PostMapping("/create2")
-    public ResponseEntity<AppointmentEntity> createAppointment2(@RequestBody AppointmentEntity appointment) {
-        return ResponseEntity.ok(this.appointmentService.save2(appointment.getStartDate(),
-                appointment.getEndDate(),
-                appointment.getReason(),
-                appointment.getDoctor()));
+    public ResponseEntity<AppointmentEntity> createAppointment2(@RequestBody AppointmentDTO appointment) {
+        AppointmentEntity appointmentEntity = this.appointmentService.save2(appointment);
+
+        return ResponseEntity.ok(appointmentEntity);
     }
 }
