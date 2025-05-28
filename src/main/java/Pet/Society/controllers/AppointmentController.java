@@ -2,6 +2,7 @@ package Pet.Society.controllers;
 
 import Pet.Society.models.dto.AppointmentDTO;
 import Pet.Society.models.entities.AppointmentEntity;
+import Pet.Society.models.entities.PetEntity;
 import Pet.Society.repositories.AppointmentRepository;
 import Pet.Society.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,11 @@ public class AppointmentController {
         AppointmentEntity appointmentEntity = this.appointmentService.save2(appointment);
 
         return ResponseEntity.ok(appointmentEntity);
+    }
+
+    @PatchMapping("/assign/{id}")
+    public ResponseEntity<AppointmentEntity> assignAppointment(@RequestBody AppointmentEntity appointment, PetEntity pet) {
+        this.appointmentService.bookAppointment(appointment,pet);
+        return ResponseEntity.ok(appointment);
     }
 }

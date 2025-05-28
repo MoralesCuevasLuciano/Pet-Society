@@ -52,4 +52,9 @@ public class GlobalControllerException {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
+    @ExceptionHandler(UnavailableAppointmentException.class)
+    public ResponseEntity<String> handlerDuplicatedAppointmentException(UnavailableAppointmentException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
 }
