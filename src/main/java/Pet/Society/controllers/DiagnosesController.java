@@ -51,7 +51,7 @@ public class DiagnosesController {
     }
 
     @GetMapping("getByPetId/{id}")
-    public ResponseEntity<Page<DiagnosesEntity>> getByPetId(@PathVariable long id) {
+    public ResponseEntity<Page<DiagnosesDTO>> getByPetId(@PathVariable long id) {
         Pageable pageable = PageRequest.of(0, 10);
         return ResponseEntity.ok(diagnosesService.findByPetId(id, pageable));
     }

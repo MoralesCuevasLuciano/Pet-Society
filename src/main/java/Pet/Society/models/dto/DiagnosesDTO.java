@@ -30,6 +30,18 @@ public class DiagnosesDTO {
     @PastOrPresent
     private LocalDateTime date;
 
+    public DiagnosesDTO() {
+    }
+
+    public DiagnosesDTO(String diagnose, String treatment, Long doctorId, Long petId, Long appointmentId, LocalDateTime date) {
+        this.diagnose = diagnose;
+        this.treatment = treatment;
+        this.doctorId = doctorId;
+        this.petId = petId;
+        this.appointmentId = appointmentId;
+        this.date = date;
+    }
+
     public String getDiagnose() {
         return diagnose;
     }

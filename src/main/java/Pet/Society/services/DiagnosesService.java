@@ -15,7 +15,6 @@ import Pet.Society.repositories.DoctorRepository;
 import Pet.Society.repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -81,9 +80,15 @@ public class DiagnosesService {
                 .orElseThrow(() -> new PetNotFoundException("Pet not found"));
     }
 
-    public Page<DiagnosesEntity> findByPetId(long id, Pageable pageable) {
+    public Page<DiagnosesDTO> findByPetId(long id, Pageable pageable) {
         if (diagnosesRepository.findByPetId(id, pageable) != null) {
-            return diagnosesRepository.findByPetId(id, pageable);
+
+            return diagnosesRepository.findByPetId(id,pageable).map(diagnosesEntity -> new DiagnosesDTO(diagnosesEntity.getDiagnose(),
+                    diagnosesEntity.getTreatment(),
+                    diagnosesEntity.getDoctor().getId(),
+                    diagnosesEntity.getPet().getId(),
+                    diagnosesEntity.getAppointment().getId(),
+                    diagnosesEntity.getDate()));
         }else {
             throw new DiagnosesNotFoundException("Diagnoses of Pet id : " + id + " not found");
         }
