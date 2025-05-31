@@ -16,9 +16,10 @@ import Pet.Society.repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+
 import java.util.List;
 
 @Service
@@ -80,14 +81,14 @@ public class DiagnosesService {
                 .orElseThrow(() -> new PetNotFoundException("Pet not found"));
     }
 
-//    public Page<DiagnosesEntity> findByPetId(long id, Pageable pageable) {
-//        if (diagnosesRepository.findById(id).isPresent()) {
-//            return diagnosesRepository.findByPetId(id, pageable);
-//        }else {
-//            throw new DiagnosesNotFoundException("Diagnoses of Pet id : " + id + " not found");
-//        }
-//
-//    }
+    public Page<DiagnosesEntity> findByPetId(long id, Pageable pageable) {
+        if (diagnosesRepository.findByPetId(id, pageable) != null) {
+            return diagnosesRepository.findByPetId(id, pageable);
+        }else {
+            throw new DiagnosesNotFoundException("Diagnoses of Pet id : " + id + " not found");
+        }
+
+    }
 
 
 }
