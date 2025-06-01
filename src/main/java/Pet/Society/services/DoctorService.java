@@ -6,11 +6,9 @@ import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 @Service
 public class DoctorService  {
@@ -19,7 +17,7 @@ public class DoctorService  {
     private DoctorRepository doctorRepository;
 
     public DoctorEntity save(DoctorEntity doctor) {
-        if(!doctorExist(doctor.getDni()))
+        if(!doctorExistByDni(doctor.getDni()))
             return this.doctorRepository.save(doctor);
         throw new UserExistsException("The doctor already exists");
     }
@@ -30,6 +28,12 @@ public class DoctorService  {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found");
         }
         return doctor.get();
+    }
+
+
+    public boolean doctorExistById(Long id) {
+        Optional<DoctorEntity> existing = doctorRepository.findById(id);
+        return existing.isPresent();
     }
 
     public DoctorEntity findByDni(String dni) {
@@ -65,7 +69,7 @@ public class DoctorService  {
         this.doctorRepository.save(doctorToUnsubscribe);
     }
 
-    public boolean doctorExist(String dni){
+    public boolean doctorExistByDni(String dni){
         Optional<DoctorEntity> existing = doctorRepository.findByDni(dni);
         if(existing.isEmpty())
             return false;

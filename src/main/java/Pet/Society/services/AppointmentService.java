@@ -1,7 +1,9 @@
 package Pet.Society.services;
 
 import Pet.Society.models.dto.AppointmentDTO;
+import Pet.Society.models.dto.AppointmentUpdateDTO;
 import Pet.Society.models.entities.AppointmentEntity;
+import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.entities.PetEntity;
 import Pet.Society.models.enums.Reason;
@@ -27,11 +29,13 @@ public class AppointmentService {
     private DoctorService doctorService;
     @Autowired
     private PetService petService;
+    @Autowired
+    private ClientService clientService;
 
     //MAYBE IS THE CORRECT WAY.
     //Si ya existe la cita; Excepcion
     //Si existe una cita que se solape con otra; Excepción
-    public void save(AppointmentEntity appointment) {
+ /*   public void save(AppointmentEntity appointment) {
 
         if (isOverlapping(appointment)) {
             throw new DuplicatedAppointmentException("The appointment already exists; it has the same hour.");
@@ -46,13 +50,13 @@ public class AppointmentService {
         AppointmentEntity appointment = new AppointmentEntity(appointmentDTO.getStartTime()
                 , appointmentDTO.getEndTime(),
                 appointmentDTO.getReason(),
-                Status.SUCCESFULLY,
+                Status.SUCCESSFULLY,
                 findDoctor);
         if (isOverlapping(appointment)) {
             throw new DuplicatedAppointmentException("The appointment already exists; it has the same hour.");
         }
         return this.appointmentRepository.save(appointment);
-    }
+    }*/
 
 
     /// FORMA 2
@@ -73,7 +77,7 @@ public class AppointmentService {
     }
 
     //Confirm if an Appointment doesn't overlap with another Appointment
-    /// return if exist any match with another appointment in our database.
+  /*  /// return if exist any match with another appointment in our database.
     private boolean isOverlapping(AppointmentEntity newAppointment) {
         return appointmentRepository.findAppointmentByDoctor(newAppointment.getDoctor())
                 .stream()
@@ -81,8 +85,69 @@ public class AppointmentService {
                         newAppointment.getStartDate().isBefore(existing.getEndDate()) &&
                                 newAppointment.getEndDate().isAfter(existing.getStartDate())
                 );
+    }*/
+
+    public AppointmentEntity updateAppointment(AppointmentUpdateDTO appointmentUpdateDTO, long id){
+        Optional<AppointmentEntity> existingAppointment = this.appointmentRepository.findById(id);
+        if (existingAppointment.isEmpty()) {
+            throw new AppointmentDoesntExistException("Appointment does not exist");
+        }
+        AppointmentEntity appointmentToUpdate = existingAppointment.get();
+        if (appointmentUpdateDTO.getApproved() != null) {
+            appointmentToUpdate.setApproved(appointmentUpdateDTO.getApproved());
+        }
+
+        if (appointmentUpdateDTO.getReason() != null) {
+            appointmentToUpdate.setReason(appointmentUpdateDTO.getReason());
+        }
+
+        if (appointmentUpdateDTO.getStatus() != null) {
+            appointmentToUpdate.setStatus(appointmentUpdateDTO.getStatus());
+        }
+
+        if (appointmentUpdateDTO.getPetId() != null) {
+            PetEntity pet = this.petService.getPetById(appointmentUpdateDTO.getPetId());
+            appointmentToUpdate.setPet(pet);
+        }
+
+        if (appointmentUpdateDTO.getDiagnosesId() != null) {
+            // Aquí deberías buscar el Diagnóstico por ID y asignarlo a la cita
+            // DiagnosesEntity diagnoses = this.diagnosesService.getDiagnosesById(appointmentUpdateDTO.getDiagnosesId());
+            // appointmentToUpdate.setDiagnoses(diagnoses);
+        }
+        this.appointmentRepository.save(appointmentToUpdate);
+        return appointmentToUpdate;
     }
 
+    public void cancelAppointment(long id) {
+        Optional<AppointmentEntity> existingAppointment = this.appointmentRepository.findById(id);
+        if (existingAppointment.isEmpty()) {
+            throw new AppointmentDoesntExistException("Appointment does not exist");
+        }
+        AppointmentUpdateDTO appointmentUpdateDTO = new AppointmentUpdateDTO();
+        appointmentUpdateDTO.setStatus(Status.CANCELED);
+        updateAppointment(appointmentUpdateDTO, id);
+    }
 
+    public List<AppointmentEntity> getAllAppointmentsByClientId(long id) {
+        Optional<ClientEntity> client = Optional.ofNullable(this.clientService.findById(id));
+        if (client.isEmpty()) {
+            throw new AppointmentDoesntExistException("Client does not exist");
+        }
+        return this.appointmentRepository.findAllByPetClientId(id);
+    }
 
+    public List<AppointmentEntity> getAllAppointmentsByPetId(long id) {
+        if(!petService.existsPetById(id)){
+            throw new AppointmentDoesntExistException("Pet does not exist");
+        }
+        return this.appointmentRepository.findAllByPetId(id);
+    }
+
+    public List<AppointmentEntity> getAllAppointmentsByDoctorId(long id) {
+        if(!doctorService.doctorExistById(id)){
+            throw new AppointmentDoesntExistException("Doctor does not exist");
+        }
+        return this.appointmentRepository.findAllByDoctorId(id);
+    }
 }

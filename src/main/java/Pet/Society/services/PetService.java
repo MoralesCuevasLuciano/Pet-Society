@@ -70,6 +70,10 @@ public class PetService {
 
     }
 
+    public boolean existsPetById(Long id) {
+        return petRepository.existsById(id);
+    }
+
 
     public Iterable<PetEntity> getAllPets() {
         return petRepository.findAll();
