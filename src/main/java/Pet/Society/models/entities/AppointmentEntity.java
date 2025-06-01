@@ -35,6 +35,15 @@ public class AppointmentEntity {
         this.approved = approved;
     }
 
+    public AppointmentEntity(LocalDateTime startDate, LocalDateTime endDate, Reason reason, Status status, DoctorEntity doctor, boolean approved) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.reason = reason;
+        this.status = status;
+        this.doctor = doctor;
+        this.approved = approved;
+    }
+
     public AppointmentEntity(LocalDateTime startDate, LocalDateTime endDate, DoctorEntity doctor, Reason reason) {
         this.startDate = startDate;
         this.endDate = endDate;

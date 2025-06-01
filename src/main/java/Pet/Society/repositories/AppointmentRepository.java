@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Long> {
@@ -20,4 +21,5 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
     List<AppointmentEntity> findAllByPetClientId(Long clientId);
     List<AppointmentEntity> findAllByPetId(Long petId);
     List<AppointmentEntity> findAllByDoctorId(Long doctorId);
+    List<AppointmentEntity> findAppointmentByDoctor(DoctorEntity doctor);
 }

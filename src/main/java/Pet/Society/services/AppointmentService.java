@@ -2,6 +2,7 @@ package Pet.Society.services;
 
 import Pet.Society.models.dto.AppointmentDTO;
 import Pet.Society.models.dto.AppointmentUpdateDTO;
+import Pet.Society.models.dto.AssingmentPetDTO;
 import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.DoctorEntity;
@@ -35,59 +36,56 @@ public class AppointmentService {
     //MAYBE IS THE CORRECT WAY.
     //Si ya existe la cita; Excepcion
     //Si existe una cita que se solape con otra; Excepción
- /*   public void save(AppointmentEntity appointment) {
 
-        if (isOverlapping(appointment)) {
-            throw new DuplicatedAppointmentException("The appointment already exists; it has the same hour.");
-        }
-
-        this.appointmentRepository.save(appointment);
-    }
         /// FALTA POR TOCAR, ES POSIBLE QUE SE NECESITE UN DTO
-    public AppointmentEntity save2 (AppointmentDTO appointmentDTO) {
+    public AppointmentEntity save (AppointmentDTO appointmentDTO) {
         DoctorEntity findDoctor = this.doctorService.findById(appointmentDTO.getDoctor().getId());
 
         AppointmentEntity appointment = new AppointmentEntity(appointmentDTO.getStartTime()
                 , appointmentDTO.getEndTime(),
                 appointmentDTO.getReason(),
-                Status.SUCCESSFULLY,
-                findDoctor);
+                Status.TO_BEGIN,
+                findDoctor,true);
         if (isOverlapping(appointment)) {
             throw new DuplicatedAppointmentException("The appointment already exists; it has the same hour.");
         }
         return this.appointmentRepository.save(appointment);
-    }*/
+    }
 
 
     /// FORMA 2
-    public AppointmentEntity bookAppointment2(Long idAppointment, Long petId) {
+    public AppointmentEntity bookAppointment(Long idAppointment, AssingmentPetDTO dto) {
         AppointmentEntity findAppointment = this.appointmentRepository.
                 findById(idAppointment).orElseThrow(() -> new AppointmentDoesntExistException("Appointment not found"));
 
         if (findAppointment.getPet() != null) {
             throw new UnavailableAppointmentException("This appointment is already booked");
         }
-        PetEntity pet = this.petService.getPetById(petId);
-        return findAppointment;
-    }
-    //FORMA 3
-    //USANDO UN DTO, PERO DEBO MODIFICAR EL EXISTENTE.
-    public void bookAppointment3(AppointmentDTO appointmentDTO ) {
+        if(findAppointment.isApproved()) {
+            throw new UnavailableAppointmentException("The client has an unpaid appointment");
+        }
 
+        PetEntity findPet = this.petService.getPetById(dto.getPetId());
+
+        findAppointment.setPet(findPet);
+
+        return this.appointmentRepository.save(findAppointment);
     }
 
     //Confirm if an Appointment doesn't overlap with another Appointment
-  /*  /// return if exist any match with another appointment in our database.
+   /// return if exist any match with another appointment in our database.
     private boolean isOverlapping(AppointmentEntity newAppointment) {
+
         return appointmentRepository.findAppointmentByDoctor(newAppointment.getDoctor())
                 .stream()
                 .anyMatch(existing ->
                         newAppointment.getStartDate().isBefore(existing.getEndDate()) &&
                                 newAppointment.getEndDate().isAfter(existing.getStartDate())
                 );
-    }*/
+    }
 
-    public AppointmentEntity updateAppointment(AppointmentUpdateDTO appointmentUpdateDTO, long id){
+    ///WORKS
+    public AppointmentEntity updateAppointment(AppointmentUpdateDTO appointmentUpdateDTO, long id) {
         Optional<AppointmentEntity> existingAppointment = this.appointmentRepository.findById(id);
         if (existingAppointment.isEmpty()) {
             throw new AppointmentDoesntExistException("Appointment does not exist");
@@ -141,13 +139,21 @@ public class AppointmentService {
         if(!petService.existsPetById(id)){
             throw new AppointmentDoesntExistException("Pet does not exist");
         }
-        return this.appointmentRepository.findAllByPetId(id);
+        return this.appointmentRepository.findAllByPetId(id).stream().limit(10).toList();
     }
 
     public List<AppointmentEntity> getAllAppointmentsByDoctorId(long id) {
         if(!doctorService.doctorExistById(id)){
             throw new AppointmentDoesntExistException("Doctor does not exist");
         }
-        return this.appointmentRepository.findAllByDoctorId(id);
+        return this.appointmentRepository.findAllByDoctorId(id).stream().limit(10).toList();
+    }
+
+    public boolean petHasAppointment(long id) {
+        List<AppointmentEntity> appointments = this.appointmentRepository.findAllByPetId(id);
+        if(!appointments.isEmpty()){
+           return true;
+        }
+       return false;
     }
 }
