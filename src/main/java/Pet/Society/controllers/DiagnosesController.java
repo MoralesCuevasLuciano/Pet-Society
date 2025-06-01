@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,22 +39,25 @@ public class DiagnosesController {
         return ResponseEntity.ok(diagnosis);
     }
 
-    @GetMapping("/findAll")
-    public ResponseEntity<List<DiagnosesEntity>> getAllDiagnoses() {
-        List<DiagnosesEntity> diagnoses = diagnosesService.findAll();
-        return ResponseEntity.ok(diagnoses);
-    }
 
     @GetMapping("/getLastDiagnoses/{id}")
-    public ResponseEntity<DiagnosesEntity> getLastDiagnostic(@PathVariable long id) {
-        System.out.println("getLastDiagnoses");
+    public ResponseEntity<DiagnosesDTO> getLastDiagnostic(@PathVariable long id) {
         return ResponseEntity.ok(diagnosesService.findLastById(id));
     }
 
     @GetMapping("getByPetId/{id}")
-    public ResponseEntity<Page<DiagnosesDTO>> getByPetId(@PathVariable long id) {
-        Pageable pageable = PageRequest.of(0, 10);
+    public ResponseEntity<Page<DiagnosesDTO>> getByPetId(@PageableDefault(size = 10,page = 0) Pageable pageable, @PathVariable long id) {
         return ResponseEntity.ok(diagnosesService.findByPetId(id, pageable));
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<Page<DiagnosesDTO>> getAllDiagnoses(@PageableDefault(size = 10,page = 0) Pageable pageable) {
+        return ResponseEntity.ok(diagnosesService.findAll(pageable));
+    }
+
+    @GetMapping("/getByDoctorId/{id}")
+    public ResponseEntity<Page<DiagnosesDTO>> getByDoctorId(@PathVariable long id, @PageableDefault(size = 10,page = 0) Pageable pageable) {
+        return ResponseEntity.ok(diagnosesService.findByDoctorId(id, pageable));
     }
 
 }

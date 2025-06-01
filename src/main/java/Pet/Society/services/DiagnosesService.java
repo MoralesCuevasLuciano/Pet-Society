@@ -71,13 +71,20 @@ public class DiagnosesService {
                 .orElseThrow(() -> new DiagnosesNotFoundException("Diagnosis " + id + " not found"));
     }
 
-    public List<DiagnosesEntity> findAll() {
-        return diagnosesRepository.findAll();
-    }
 
-    public DiagnosesEntity findLastById(long id) {
-        return diagnosesRepository.findLastById(id)
-                .orElseThrow(() -> new PetNotFoundException("Pet not found"));
+    public DiagnosesDTO findLastById(long id) {
+        if (diagnosesRepository.findLastById(id).isPresent()) {
+            DiagnosesEntity diagnosis = diagnosesRepository.findLastById(id).get();
+            return new DiagnosesDTO(diagnosis.getDiagnose(),
+                    diagnosis.getTreatment(),
+                    diagnosis.getDoctor().getId(),
+                    diagnosis.getPet().getId(),
+                    diagnosis.getAppointment().getId(),
+                    diagnosis.getDate());
+        }
+        else {
+            throw new DiagnosesNotFoundException("Diagnosis " + id + " not found");
+        }
     }
 
     public Page<DiagnosesDTO> findByPetId(long id, Pageable pageable) {
@@ -94,6 +101,33 @@ public class DiagnosesService {
         }
 
     }
+
+    public Page<DiagnosesDTO> findAll(Pageable pageable) {
+        return diagnosesRepository.findAll(pageable).map(diagnoses-> new DiagnosesDTO(diagnoses.getDiagnose(),
+                diagnoses.getTreatment(),
+                diagnoses.getDoctor().getId(),
+                diagnoses.getPet().getId(),
+                diagnoses.getAppointment().getId(),
+                diagnoses.getDate()));
+    }
+
+    public Page<DiagnosesDTO> findByDoctorId(long id, Pageable pageable) {
+        if (diagnosesRepository.findByDoctorId(id, pageable) != null) {
+            return diagnosesRepository.findByDoctorId(id, pageable).map(diagnoses -> new DiagnosesDTO(
+                    diagnoses.getDiagnose(),
+                    diagnoses.getTreatment(),
+                    diagnoses.getDoctor().getId(),
+                    diagnoses.getPet().getId(),
+                    diagnoses.getAppointment().getId(),
+                    diagnoses.getDate()
+            ));
+        }
+        else {
+            throw new DiagnosesNotFoundException("Diagnoses of Doctor id : " + id + " not found");
+        }
+    }
+
+
 
 
 }

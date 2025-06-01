@@ -23,4 +23,9 @@ public interface DiagnosesRepository extends JpaRepository<DiagnosesEntity, Long
             nativeQuery = true)
     Page<DiagnosesEntity> findByPetId(Long pet_id, Pageable pageable);
 
+    @Query(value = "SELECT * FROM diagnoses_entity WHERE doctor_id = ?1",
+    countQuery = "SELECT COUNT(*) FROM diagnoses_entity WHERE doctor_id = ?1",
+    nativeQuery = true)
+    Page<DiagnosesEntity> findByDoctorId(Long doctor_id, Pageable pageable);
+
 }
