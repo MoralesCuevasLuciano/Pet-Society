@@ -19,5 +19,11 @@ public class RegisterController {
         registerService.registerNewClient(dto);
         return ResponseEntity.ok("Successfully registered user");
     }
+
+    @PostMapping("/new/admin")
+    public ResponseEntity<String> registerAdmin(@Valid @RequestBody RegisterDTO dto) {
+        registerService.registerNewAdmin(dto);
+        return ResponseEntity.ok("Successfully registered admin");
+    }
 }
 
