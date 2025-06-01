@@ -14,7 +14,7 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
 
-    @PostMapping("/new")
+    @PostMapping("/new/client")
     public ResponseEntity<String> registerClient(@Valid @RequestBody RegisterDTO dto) {
         registerService.registerNewClient(dto);
         return ResponseEntity.ok("Successfully registered user");

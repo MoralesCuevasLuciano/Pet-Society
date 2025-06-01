@@ -15,6 +15,8 @@ public class RegisterService {
     private ClientService clientService;
     @Autowired
     private CredentialService credentialService;
+    @Autowired
+    private UserService userService;
 
 
 
@@ -52,7 +54,7 @@ public class RegisterService {
         credentialEntity.setUsername(registerDTO.getUsername());
         credentialEntity.setPassword(registerDTO.getPassword());
         credentialEntity.setRole(Role.ADMIN);
-        credentialEntity.setUser(userEntity);
+        credentialEntity.setUser(userService.save(userEntity, false));
 
         credentialService.save(credentialEntity);
     }
