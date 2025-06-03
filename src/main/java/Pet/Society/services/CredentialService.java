@@ -18,7 +18,6 @@ public class CredentialService {
     }
 
     public List<CredentialEntity> listAll (){
-
         return credentialRepository.findAll();
     }
 
