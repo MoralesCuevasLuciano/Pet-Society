@@ -60,7 +60,7 @@ public class PetController {
     /**
      * Buscar por ID y devolver DTO
      */
-    @GetMapping("/findForID/{id}")
+    @GetMapping("/findByID/{id}")
     public ResponseEntity<PetDTO> getPetById(@PathVariable Long id) {
 
             PetEntity pet = petService.getPetById(id);
