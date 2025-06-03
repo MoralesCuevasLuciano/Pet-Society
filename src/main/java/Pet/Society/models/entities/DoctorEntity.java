@@ -10,12 +10,12 @@ public class DoctorEntity extends UserEntity{
     private Speciality speciality;
 
     public DoctorEntity(long id, String name, String surname, String phone, String DNI, String email, Speciality speciality) {
-        super(id, name, surname, phone, DNI, email);
+        super(id, name, surname, phone, DNI, email, true);
         this.speciality = speciality;
     }
 
     public DoctorEntity(String name, String surname, String phone, String DNI, String email, Speciality speciality) {
-        super(name, surname, phone, DNI, email);
+        super(name, surname, phone, DNI, email , true);
         this.speciality = speciality;
     }
 
