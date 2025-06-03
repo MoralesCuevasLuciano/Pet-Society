@@ -1,6 +1,7 @@
 package Pet.Society.services;
 
 import Pet.Society.models.dto.DiagnosesDTO;
+import Pet.Society.models.dto.DiagnosesDTOResponse;
 import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.models.entities.DiagnosesEntity;
 import Pet.Society.models.entities.DoctorEntity;
@@ -17,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-
-import java.util.List;
 
 @Service
 public class DiagnosesService {
@@ -41,11 +39,6 @@ public class DiagnosesService {
     }
 
     public DiagnosesEntity save(DiagnosesDTO dto) {
-        PetEntity pet = petRepository.findById(dto.getPetId())
-                .orElseThrow(() -> new PetNotFoundException("Pet not found"));
-
-        DoctorEntity doctor = doctorRepository.findById(dto.getDoctorId())
-                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
 
         AppointmentEntity appointment = appointmentRepository.findById(dto.getAppointmentId())
                 .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
@@ -57,8 +50,6 @@ public class DiagnosesService {
         DiagnosesEntity diagnosis = new DiagnosesEntity(
                 dto.getDiagnose(),
                 dto.getTreatment(),
-                doctor,
-                pet,
                 appointment,
                 dto.getDate()
         );
@@ -72,10 +63,10 @@ public class DiagnosesService {
     }
 
 
-    public DiagnosesDTO findLastById(long id) {
+    public DiagnosesDTOResponse findLastById(long id) {
         if (diagnosesRepository.findLastById(id).isPresent()) {
             DiagnosesEntity diagnosis = diagnosesRepository.findLastById(id).get();
-            return new DiagnosesDTO(diagnosis.getDiagnose(),
+            return new DiagnosesDTOResponse(diagnosis.getDiagnose(),
                     diagnosis.getTreatment(),
                     diagnosis.getDoctor().getId(),
                     diagnosis.getPet().getId(),
@@ -87,10 +78,10 @@ public class DiagnosesService {
         }
     }
 
-    public Page<DiagnosesDTO> findByPetId(long id, Pageable pageable) {
+    public Page<DiagnosesDTOResponse> findByPetId(long id, Pageable pageable) {
         if (diagnosesRepository.findByPetId(id, pageable) != null) {
 
-            return diagnosesRepository.findByPetId(id,pageable).map(diagnosesEntity -> new DiagnosesDTO(diagnosesEntity.getDiagnose(),
+            return diagnosesRepository.findByPetId(id,pageable).map(diagnosesEntity -> new DiagnosesDTOResponse(diagnosesEntity.getDiagnose(),
                     diagnosesEntity.getTreatment(),
                     diagnosesEntity.getDoctor().getId(),
                     diagnosesEntity.getPet().getId(),
@@ -102,8 +93,8 @@ public class DiagnosesService {
 
     }
 
-    public Page<DiagnosesDTO> findAll(Pageable pageable) {
-        return diagnosesRepository.findAll(pageable).map(diagnoses-> new DiagnosesDTO(diagnoses.getDiagnose(),
+    public Page<DiagnosesDTOResponse> findAll(Pageable pageable) {
+        return diagnosesRepository.findAll(pageable).map(diagnoses-> new DiagnosesDTOResponse(diagnoses.getDiagnose(),
                 diagnoses.getTreatment(),
                 diagnoses.getDoctor().getId(),
                 diagnoses.getPet().getId(),
@@ -111,9 +102,9 @@ public class DiagnosesService {
                 diagnoses.getDate()));
     }
 
-    public Page<DiagnosesDTO> findByDoctorId(long id, Pageable pageable) {
+    public Page<DiagnosesDTOResponse> findByDoctorId(long id, Pageable pageable) {
         if (diagnosesRepository.findByDoctorId(id, pageable) != null) {
-            return diagnosesRepository.findByDoctorId(id, pageable).map(diagnoses -> new DiagnosesDTO(
+            return diagnosesRepository.findByDoctorId(id, pageable).map(diagnoses -> new DiagnosesDTOResponse(
                     diagnoses.getDiagnose(),
                     diagnoses.getTreatment(),
                     diagnoses.getDoctor().getId(),

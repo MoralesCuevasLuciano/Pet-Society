@@ -2,19 +2,16 @@ package Pet.Society.controllers;
 
 
 import Pet.Society.models.dto.DiagnosesDTO;
+import Pet.Society.models.dto.DiagnosesDTOResponse;
 import Pet.Society.models.entities.DiagnosesEntity;
 import Pet.Society.services.DiagnosesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/diagnoses")
@@ -41,22 +38,22 @@ public class DiagnosesController {
 
 
     @GetMapping("/getLastDiagnoses/{id}")
-    public ResponseEntity<DiagnosesDTO> getLastDiagnostic(@PathVariable long id) {
+    public ResponseEntity<DiagnosesDTOResponse> getLastDiagnostic(@PathVariable long id) {
         return ResponseEntity.ok(diagnosesService.findLastById(id));
     }
 
     @GetMapping("getByPetId/{id}")
-    public ResponseEntity<Page<DiagnosesDTO>> getByPetId(@PageableDefault(size = 10,page = 0) Pageable pageable, @PathVariable long id) {
+    public ResponseEntity<Page<DiagnosesDTOResponse>> getByPetId(@PageableDefault(size = 10,page = 0) Pageable pageable, @PathVariable long id) {
         return ResponseEntity.ok(diagnosesService.findByPetId(id, pageable));
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<Page<DiagnosesDTO>> getAllDiagnoses(@PageableDefault(size = 10,page = 0) Pageable pageable) {
+    public ResponseEntity<Page<DiagnosesDTOResponse>> getAllDiagnoses(@PageableDefault(size = 10,page = 0) Pageable pageable) {
         return ResponseEntity.ok(diagnosesService.findAll(pageable));
     }
 
     @GetMapping("/getByDoctorId/{id}")
-    public ResponseEntity<Page<DiagnosesDTO>> getByDoctorId(@PathVariable long id, @PageableDefault(size = 10,page = 0) Pageable pageable) {
+    public ResponseEntity<Page<DiagnosesDTOResponse>> getByDoctorId(@PathVariable long id, @PageableDefault(size = 10,page = 0) Pageable pageable) {
         return ResponseEntity.ok(diagnosesService.findByDoctorId(id, pageable));
     }
 
