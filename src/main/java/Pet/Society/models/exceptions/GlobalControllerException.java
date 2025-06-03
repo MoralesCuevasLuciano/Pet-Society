@@ -1,5 +1,6 @@
 package Pet.Society.models.exceptions;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,7 +36,23 @@ public class GlobalControllerException {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> HandlerException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error processing the request");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error processing the request. " + ex.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleUniqueConstraintViolation(DataIntegrityViolationException ex) {
+        String message = "That data already exists";
+        if (ex.getMessage() != null && ex.getMessage().toLowerCase().contains("duplicate")) {
+            if(ex.getMessage().toLowerCase().contains("email")){
+                message = "The email already exists";
+            }else if(ex.getMessage().toLowerCase().contains("dni")){
+                message = "The DNI already exists";
+            }
+        }
+        Map<String, String> error = new HashMap<>();
+        error.put("error", message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+
     }
 
     @ExceptionHandler(UserAttributeException.class)
@@ -48,6 +65,11 @@ public class GlobalControllerException {
         Map<String, String> error = new HashMap<>();
         error.put("An error occurred during login", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler(DiagnosesNotFoundException.class)
+    public ResponseEntity<String> handlerDiagnosesNotFoundException(DiagnosesNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The diagnoses does not exist " + ex.getMessage());
     }
 
 }

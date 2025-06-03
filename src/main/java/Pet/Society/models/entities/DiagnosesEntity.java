@@ -43,6 +43,10 @@ public class DiagnosesEntity {
         this.date = date;
     }
 
+    public DiagnosesEntity(String diagnose, String treatment, AppointmentEntity appointment, LocalDateTime date) {
+    }
+
+
     public long getId() {
         return id;
     }
