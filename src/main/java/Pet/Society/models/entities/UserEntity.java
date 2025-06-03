@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 
-public abstract class UserEntity {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -114,7 +114,6 @@ public abstract class UserEntity {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
 
 }

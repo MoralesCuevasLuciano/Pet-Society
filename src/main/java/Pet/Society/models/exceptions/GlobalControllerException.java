@@ -60,6 +60,7 @@ public class GlobalControllerException {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The data entered is not correct" + ex.getMessage());
     }
 
+    //Mejor forma de colocar los errores. Mas información
     @ExceptionHandler(LoginErrorException.class)
     public ResponseEntity<Map<String, String>> handlerLoginError(LoginErrorException ex) {
         Map<String, String> error = new HashMap<>();
@@ -70,6 +71,16 @@ public class GlobalControllerException {
     @ExceptionHandler(DiagnosesNotFoundException.class)
     public ResponseEntity<String> handlerDiagnosesNotFoundException(DiagnosesNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The diagnoses does not exist " + ex.getMessage());
+    }
+
+    @ExceptionHandler(DuplicatedAppointmentException.class)
+    public ResponseEntity<String> handlerDuplicatedAppointmentException(DuplicatedAppointmentException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnavailableAppointmentException.class)
+    public ResponseEntity<String> handlerDuplicatedAppointmentException(UnavailableAppointmentException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
 }
