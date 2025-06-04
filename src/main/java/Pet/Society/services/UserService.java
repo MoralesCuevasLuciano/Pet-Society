@@ -1,12 +1,15 @@
 package Pet.Society.services;
 
 
+import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.CredentialEntity;
 import Pet.Society.models.entities.UserEntity;
 import Pet.Society.models.enums.Role;
 import Pet.Society.models.exceptions.UserExistsException;
+import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.CredentialRepository;
 import Pet.Society.repositories.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,7 @@ public class UserService {
 
 
     /**Create*/
-    public UserEntity save(UserEntity admin, boolean isUpdate) {
+    public UserEntity save(UserEntity admin) {
         Optional<UserEntity> existingAdmin = this.userRepository.findByDni(admin.getDni());
         if (existingAdmin.isPresent()) {
             throw new UserExistsException("User already exists");
@@ -33,34 +36,55 @@ public class UserService {
         return admin;
     }
 
-    /**findById*/
-    public UserEntity findById(long id) {
-        return this.userRepository.findById(id).orElseThrow(() -> new UserExistsException("Admin not found"));
-    }
 
-
-    /**delete*/
-    public void deleteAdmin(Long id) {
-        UserEntity existingAdmin = userRepository.findById(id)
-                .orElseThrow(() -> new UserExistsException("El administrador con ID: " + id + " no existe."));
-        userRepository.delete(existingAdmin);
-    }
-
-    /**Update*/
-    public void update(UserEntity userToModify, Long id) {
-        Optional<UserEntity> existingUser = this.userRepository.findById(id);
-        if (existingUser.isEmpty()) {
+    public void update(UserEntity userToUnsubscribe, long id) {
+        Optional<UserEntity> userOpt = this.userRepository.findById(id);
+        if (userOpt.isEmpty()) {
             throw new UserExistsException("User does not exist");
         }
-        if (userToModify.getName() != null) existingUser.get().setName(userToModify.getName());
-        if (userToModify.getSurname() != null) existingUser.get().setSurname(userToModify.getSurname());
-        if (userToModify.getEmail() != null) existingUser.get().setEmail(userToModify.getEmail());
-        if (userToModify.getPhone() != null) existingUser.get().setPhone(userToModify.getPhone());
-        if (userToModify.getDni() != null) existingUser.get().setDni(userToModify.getDni());
-
-        this.userRepository.save(existingUser.get());
+        userToUnsubscribe.setId(id);
+        takeAttributes(userToUnsubscribe, userOpt.get());
+        userToUnsubscribe.setActive(false);
+        this.userRepository.save(userToUnsubscribe);
     }
 
+
+    public UserEntity takeAttributes(UserEntity origin, UserEntity destination) {
+        if(origin.getName() == null){origin.setPhone(destination.getPhone());}
+        if(origin.getSurname() == null){origin.setSurname(destination.getSurname());}
+        if(origin.getEmail() == null){origin.setEmail(destination.getEmail());}
+        if(origin.getDni() == null){origin.setDni(destination.getDni());}
+        if(origin.getPhone()==null){origin.setPhone(destination.getPhone());}
+
+        return origin;
+    }
+
+
+    /**unSuscribe*/
+    public void unSubscribe(Long id){
+        Optional<UserEntity> existingUser = this.userRepository.findById(id);
+        if (existingUser.isEmpty()){
+            throw new UserNotFoundException("User does not exist");
+        }
+        UserEntity userToUnsubscribe = existingUser.get();
+        userToUnsubscribe.setSubscribed(false);
+        this.userRepository.save(userToUnsubscribe);
+    }
+
+    /**Suscribe uno ya dado de baja por la funcion de arriba
+     * en caso de que un user se vaya y quiera volver*/
+    public void reSubscribe(Long id) {
+        Optional<UserEntity> existingUser = this.userRepository.findById(id);
+        if (existingUser.isEmpty()) {
+            throw new UserNotFoundException("User does not exist");
+        }
+        UserEntity userToResubscribe = existingUser.get();
+        userToResubscribe.setActive(true);
+        this.userRepository.save(userToResubscribe);
+    }
+
+
+    /**Find by ROLE ADMIN*/
     public List<UserEntity> findByRole() {
         return credentialRepository.findByRole(Role.ADMIN)
                 .stream()

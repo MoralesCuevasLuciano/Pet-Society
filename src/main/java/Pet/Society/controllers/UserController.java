@@ -1,5 +1,6 @@
 package Pet.Society.controllers;
 
+import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.entities.UserEntity;
 import Pet.Society.services.UserService;
@@ -23,27 +24,35 @@ public class UserController {
     /**Create*/
     @PostMapping("/create")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-        UserEntity savedUser = userService.save(user, false);
+        UserEntity savedUser = userService.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
 
     /**Update*/
-    @PatchMapping("/update/{id}") //WORKS
-    public HttpEntity<UserEntity> updateDoctor(@Valid @RequestBody UserEntity user, @PathVariable Long id) {
-        userService.update(user, id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    @PatchMapping("/update/{id}")
+    public HttpEntity<UserEntity> update(@Valid @RequestBody UserEntity user, @PathVariable long id) {
+        this.userService.update(user,id);
+        return ResponseEntity.ok(user);
 
     }
 
-    /**Unsubscribe*/
+
+    /**delete false active*/
     @PatchMapping("/delete/{id}")
-    public ResponseEntity<UserEntity> unsubscribeUser(@PathVariable Long id) {
-        UserEntity user = userService.findById(id);
-        user.setActive(false);
-        UserEntity updatedUser = userService.save(user, true);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    public ResponseEntity<String> unsubscribe(@PathVariable long id) {
+        this.userService.unSubscribe(id);
+        return ResponseEntity.status(HttpStatus.OK).body("User unsubscribed successfully");
+
     }
+
+    /**volver a suscribir*/
+    @PatchMapping("/resubscribe/{id}")
+    public ResponseEntity<String> resubscribe(@PathVariable long id) {
+        this.userService.reSubscribe(id);
+        return ResponseEntity.status(HttpStatus.OK).body("User resubscribed successfully");
+    }
+
 
 
     /**Find by ROL ADMIN*/

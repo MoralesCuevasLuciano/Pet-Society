@@ -54,7 +54,7 @@ public class RegisterService {
         credentialEntity.setUsername(registerDTO.getUsername());
         credentialEntity.setPassword(registerDTO.getPassword());
         credentialEntity.setRole(Role.ADMIN);
-        credentialEntity.setUser(userService.save(userEntity, false));
+        credentialEntity.setUser(userService.save(userEntity));
 
         credentialService.save(credentialEntity);
     }
