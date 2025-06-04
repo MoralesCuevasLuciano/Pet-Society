@@ -31,7 +31,7 @@ public class UserController {
 
     /**Update*/
     @PatchMapping("/update/{id}")
-    public HttpEntity<UserEntity> update(@Valid @RequestBody UserEntity user, @PathVariable long id) {
+    public ResponseEntity<UserEntity> update(@Valid @RequestBody UserEntity user, @PathVariable long id) {
         this.userService.update(user,id);
         return ResponseEntity.ok(user);
 

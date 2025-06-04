@@ -13,11 +13,11 @@ public class ClientEntity extends UserEntity {
     private List<PetEntity> pets;
 
     public ClientEntity(long id, String name, String surname, String phone, String dni, String email) {
-        super(id, name, surname, phone, dni, email, true);
+        super(id, name, surname, phone, dni, email);
     }
 
     public ClientEntity(String name, String surname, String phone, String dni, String email) {
-        super(name, surname, phone, dni, email, true);
+        super(name, surname, phone, dni, email);
     }
 
 

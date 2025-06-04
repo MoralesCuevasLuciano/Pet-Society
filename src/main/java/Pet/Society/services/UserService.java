@@ -37,15 +37,14 @@ public class UserService {
     }
 
 
-    public void update(UserEntity userToUnsubscribe, long id) {
+    public void update(UserEntity userToUpdate, long id) {
         Optional<UserEntity> userOpt = this.userRepository.findById(id);
         if (userOpt.isEmpty()) {
             throw new UserExistsException("User does not exist");
         }
-        userToUnsubscribe.setId(id);
-        takeAttributes(userToUnsubscribe, userOpt.get());
-        userToUnsubscribe.setActive(false);
-        this.userRepository.save(userToUnsubscribe);
+        userToUpdate.setId(id);
+        takeAttributes(userToUpdate, userOpt.get());
+        this.userRepository.save(userToUpdate);
     }
 
 
@@ -79,7 +78,7 @@ public class UserService {
             throw new UserNotFoundException("User does not exist");
         }
         UserEntity userToResubscribe = existingUser.get();
-        userToResubscribe.setActive(true);
+        userToResubscribe.setSubscribed(true);
         this.userRepository.save(userToResubscribe);
     }
 

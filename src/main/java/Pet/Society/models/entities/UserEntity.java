@@ -35,28 +35,24 @@ public class UserEntity {
     @NotNull
     @ColumnDefault("true")
     private Boolean subscribed = true;
-    @ColumnDefault("1")
-    private boolean active = true;
 
 
 
-    public UserEntity(long id, String name, String surname, String phone, String dni, String email, boolean active) {
+    public UserEntity(long id, String name, String surname, String phone, String dni, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.dni = dni;
         this.email = email;
-        this.active = active;
     }
 
-    public UserEntity(String name, String surname, String phone, String dni, String email, boolean active) {
+    public UserEntity(String name, String surname, String phone, String dni, String email) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.dni = dni;
         this.email = email;
-        this.active = active;
     }
 
     public UserEntity() {
@@ -117,14 +113,6 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
 
