@@ -34,6 +34,12 @@ public class AppointmentController {
         return ResponseEntity.ok(this.appointmentService.bookAppointment(appointmentId,pet));
     }
 
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<String> cancelAppointment(@PathVariable("id") Long appointmentId) {
+        this.appointmentService.cancelAppointment(appointmentId);
+        return ResponseEntity.ok("Appointment cancelled successfully");
+    }
+
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<AppointmentEntity> updateAppointment(@PathVariable Long id, @RequestBody AppointmentUpdateDTO appointmentUpdateDTO) {

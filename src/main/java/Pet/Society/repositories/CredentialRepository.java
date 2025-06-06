@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface CredentialRepository extends JpaRepository<CredentialEntity, Long> {
 
     Optional<CredentialEntity> findByUsernameAndPassword(String username, String password);
+
+    Optional<CredentialEntity> findByUsername(String username);
 }
