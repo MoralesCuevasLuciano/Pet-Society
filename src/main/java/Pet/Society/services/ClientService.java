@@ -8,9 +8,12 @@ import Pet.Society.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import com.github.javafaker.Faker;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -67,6 +70,29 @@ public class ClientService {
 
         return origin;
     }
+
+
+
+    public List<ClientEntity> addRandomClients() {
+        List<ClientEntity> clients = new ArrayList<>();
+        Faker faker = new Faker();
+
+        for (int i = 1; i <= 100; i++) {
+            ClientEntity client = new ClientEntity();
+            client.setName(faker.name().firstName());
+            client.setSurname(faker.name().lastName());
+            client.setPhone(faker.phoneNumber().cellPhone());
+            client.setDni(String.valueOf(faker.number().numberBetween(10000000, 99999999)));
+            client.setEmail(faker.internet().emailAddress());
+            client.setFoundation(faker.bool().bool());
+            client.setSubscribed(true);
+
+            clients.add(client);
+        }
+        clientRepository.saveAll(clients);
+        return clients;
+    }
+
 
 }
 

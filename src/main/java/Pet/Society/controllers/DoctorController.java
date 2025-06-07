@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/doctor")
 public class DoctorController {
@@ -45,5 +47,10 @@ public class DoctorController {
     public ResponseEntity<DoctorEntity> findByDNI (@PathVariable String dni){
         DoctorEntity doctor = doctorService.findByDni(dni);
         return new ResponseEntity<>(doctor, HttpStatus.OK);
+    }
+
+    @GetMapping("/addDoctors")
+    public ResponseEntity<List<DoctorEntity>> addDoctors() {
+        return ResponseEntity.ok(this.doctorService.addDoctors());
     }
 }
