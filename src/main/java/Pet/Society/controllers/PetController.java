@@ -94,4 +94,11 @@ public class PetController {
 
     }
 
+
+    @GetMapping("/assignPets")
+    public ResponseEntity<String> assignSamplePets() {
+        petService.assignPetsToClients();
+        return ResponseEntity.ok("Se asignaron 2 mascotas a cada cliente.");
+    }
+
 }

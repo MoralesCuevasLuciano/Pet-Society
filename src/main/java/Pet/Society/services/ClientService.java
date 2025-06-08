@@ -1,7 +1,10 @@
 package Pet.Society.services;
 
 
+import Pet.Society.models.dto.RegisterDTO;
 import Pet.Society.models.entities.ClientEntity;
+import Pet.Society.models.entities.CredentialEntity;
+import Pet.Society.models.enums.Role;
 import Pet.Society.models.exceptions.UserExistsException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
@@ -22,6 +25,8 @@ public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private RegisterService registerService;
 
     public ClientEntity save(ClientEntity client) {
         Optional<ClientEntity> clientEntity= this.clientRepository.findByDni(client.getDni());
@@ -77,19 +82,20 @@ public class ClientService {
         List<ClientEntity> clients = new ArrayList<>();
         Faker faker = new Faker();
 
-        for (int i = 1; i <= 100; i++) {
-            ClientEntity client = new ClientEntity();
-            client.setName(faker.name().firstName());
-            client.setSurname(faker.name().lastName());
-            client.setPhone(faker.phoneNumber().cellPhone());
-            client.setDni(String.valueOf(faker.number().numberBetween(10000000, 99999999)));
-            client.setEmail(faker.internet().emailAddress());
-            client.setFoundation(faker.bool().bool());
-            client.setSubscribed(true);
+        for (int i = 1; i <= 3; i++) {
+            RegisterDTO dto = new RegisterDTO();
+            dto.setName(faker.name().firstName());
+            dto.setSurname(faker.name().lastName());
+            dto.setPhone(faker.phoneNumber().cellPhone());
+            dto.setDni(String.valueOf(faker.number().numberBetween(10000000, 99999999)));
+            dto.setEmail(faker.internet().emailAddress());
+            dto.setUsername(faker.name().username());
+            dto.setPassword(faker.internet().password());
 
-            clients.add(client);
+            registerService.registerNewClient(dto);
+
+
         }
-        clientRepository.saveAll(clients);
         return clients;
     }
 

@@ -7,10 +7,14 @@ import Pet.Society.models.exceptions.PetNotFoundException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
 import Pet.Society.repositories.PetRepository;
+import com.github.javafaker.Faker;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -84,5 +88,23 @@ public class PetService {
                 .orElseThrow(() -> new UserNotFoundException("Cliente con ID " + clientId + " no encontrado."));
 
         return petRepository.findAllByClient(client);
+    }
+
+    public void assignPetsToClients() {
+        Faker faker = new Faker();
+        List<PetEntity> petsToSave = new ArrayList<>();
+        Iterable<ClientEntity> clients = clientRepository.findAll();
+
+        for (ClientEntity client : clients) {
+            for (int i = 0; i < 2; i++) {
+                PetEntity pet = new PetEntity();
+                pet.setName(faker.animal().name());
+                pet.setAge(faker.number().numberBetween(1, 15));
+                pet.setActive(true);
+                pet.setClient(client);
+                petsToSave.add(pet);
+            }
+        }
+        petRepository.saveAll(petsToSave);
     }
 }

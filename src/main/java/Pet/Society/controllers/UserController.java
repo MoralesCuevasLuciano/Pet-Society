@@ -62,4 +62,10 @@ public class UserController {
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
 
+
+    @GetMapping("/randomsAdmins")
+    public ResponseEntity<?> addClients() {
+        userService.addRandomAdmins();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Admins aleatorios agregados correctamente");
+    }
 }

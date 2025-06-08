@@ -21,8 +21,6 @@ public class RegisterService {
 
 
     public void registerNewClient(RegisterDTO registerDTO) {
-
-
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setName(registerDTO.getName());
         clientEntity.setSurname(registerDTO.getSurname());
@@ -31,12 +29,14 @@ public class RegisterService {
         clientEntity.setEmail(registerDTO.getEmail());
         clientEntity.setPhone(registerDTO.getPhone());
 
+
+        ClientEntity savedClient = clientService.save(clientEntity);
+
         CredentialEntity credentialEntity = new CredentialEntity();
         credentialEntity.setUsername(registerDTO.getUsername());
         credentialEntity.setPassword(registerDTO.getPassword());
         credentialEntity.setRole(Role.CLIENT);
-        credentialEntity.setUser(clientService.save(clientEntity));
-
+        credentialEntity.setUser(savedClient);
 
         credentialService.save(credentialEntity);
     }
