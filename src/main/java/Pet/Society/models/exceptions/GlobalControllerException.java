@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 @RestControllerAdvice
 public class GlobalControllerException {
@@ -18,7 +19,7 @@ public class GlobalControllerException {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, detail);
         problem.setTitle(title);
         problem.setInstance(URI.create(request.getRequestURL().toString()));
-        problem.setProperty("timestamp", OffsetDateTime.now(ZoneOffset.UTC));
+        problem.setProperty("timestamp", OffsetDateTime.now());
         return problem;
     }
 
