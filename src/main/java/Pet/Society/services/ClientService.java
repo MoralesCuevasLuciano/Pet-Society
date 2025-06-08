@@ -100,5 +100,12 @@ public class ClientService {
     }
 
 
+    public List<ClientEntity> getAllClients() {
+        List<ClientEntity> clients = this.clientRepository.findAll();
+        if (clients.isEmpty()) {
+            throw new UserNotFoundException("No clients found");
+        }
+        return clients;
+    }
 }
 

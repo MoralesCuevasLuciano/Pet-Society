@@ -1,5 +1,6 @@
 package Pet.Society.repositories;
 
+import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.models.entities.DiagnosesEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,5 +28,8 @@ public interface DiagnosesRepository extends JpaRepository<DiagnosesEntity, Long
     countQuery = "SELECT COUNT(*) FROM diagnoses_entity WHERE doctor_id = ?1",
     nativeQuery = true)
     Page<DiagnosesEntity> findByDoctorId(Long doctor_id, Pageable pageable);
+
+    @Query("SELECT d FROM DiagnosesEntity d WHERE d.appointment = :appointment")
+    Optional<DiagnosesEntity> findByAppointment(@Param("appointment") AppointmentEntity appointment);
 
 }

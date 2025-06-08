@@ -91,4 +91,11 @@ public class DoctorService  {
         return doctors;
     }
 
+    public List<DoctorEntity> getAllDoctors() {
+        List<DoctorEntity> doctors = this.doctorRepository.findAll();
+        if (doctors.isEmpty()) {
+            throw new UserNotFoundException("No doctors found");
+        }
+        return doctors;
+    }
 }

@@ -55,4 +55,12 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentEntity>> getAppointmentsByDoctorId(@PathVariable Long doctorId) {
         return ResponseEntity.ok(this.appointmentService.getAllAppointmentsByDoctorId(doctorId));
     }
+
+    @PostMapping("/assignRandom")
+    public ResponseEntity<String> assignRandomPastAppointmentsToClients() {
+        appointmentService.assignAppointmentToClient();
+        return ResponseEntity.ok("Se asignó una cita aleatoria a cada cliente.");
+    }
+
+
 }

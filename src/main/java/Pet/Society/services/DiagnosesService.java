@@ -19,6 +19,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
+
 @Service
 public class DiagnosesService {
 
@@ -120,5 +124,37 @@ public class DiagnosesService {
 
 
 
+    public void assignRandomDiagnosesToAppointments() {
+        List<AppointmentEntity> appointments = appointmentRepository.findAll();
+        List<DoctorEntity> doctors = doctorRepository.findAll();
+        List<PetEntity> pets = petRepository.findAll();
+        Random random = new Random();
+
+        for (AppointmentEntity appointment : appointments) {
+            // Verifica si ya existe un diagnóstico para la cita
+            if (diagnosesRepository.findByAppointment(appointment).isPresent()) {
+                continue; // Si ya hay, no asigna
+            }
+
+            String[] posiblesDiagnosticos = {"Gripe", "Fractura", "Alergia", "Infección"};
+            String[] posiblesTratamientos = {"Reposo", "Antibióticos", "Cirugía", "Vacuna"};
+
+            String diagnose = posiblesDiagnosticos[random.nextInt(posiblesDiagnosticos.length)];
+            String treatment = posiblesTratamientos[random.nextInt(posiblesTratamientos.length)];
+            DoctorEntity doctor = doctors.get(random.nextInt(doctors.size()));
+            PetEntity pet = pets.get(random.nextInt(pets.size()));
+            LocalDateTime date = LocalDateTime.now().minusDays(random.nextInt(30));
+
+            DiagnosesEntity diagnosis = new DiagnosesEntity(
+                diagnose,
+                treatment,
+                doctor,
+                pet,
+                appointment,
+                date
+            );
+            diagnosesRepository.save(diagnosis);
+        }
+    }
 
 }
