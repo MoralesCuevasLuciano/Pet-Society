@@ -19,6 +19,7 @@ public class CredentialEntity implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
+    @Enumerated
     private Role role;
 
 

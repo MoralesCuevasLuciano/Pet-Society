@@ -18,7 +18,7 @@ import static jdk.jfr.internal.EventWriterKey.getKey;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "secret";
+    private static final String SECRET_KEY = "miSuperClaveSecretaSegura1234567890!";
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder().

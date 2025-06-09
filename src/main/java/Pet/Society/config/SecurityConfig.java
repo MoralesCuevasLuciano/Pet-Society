@@ -43,8 +43,8 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         //REGISTRARSE Y LOGUEARSE
-                        .requestMatchers(HttpMethod.POST,"/register/newClient/").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/register/new/client").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"/register/newAdmin/").hasRole("ADMIN")
                         //ACCESS TO PETS
                         .requestMatchers("/pet/**").hasAnyRole("ADMIN","CLIENT")

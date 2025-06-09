@@ -7,6 +7,7 @@ import Pet.Society.models.entities.UserEntity;
 import Pet.Society.models.enums.Role;
 import Pet.Society.models.exceptions.UserAttributeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +18,8 @@ public class RegisterService {
     private CredentialService credentialService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public void registerNewClient(RegisterDTO registerDTO) {
@@ -33,7 +35,7 @@ public class RegisterService {
 
         CredentialEntity credentialEntity = new CredentialEntity();
         credentialEntity.setUsername(registerDTO.getUsername());
-        credentialEntity.setPassword(registerDTO.getPassword());
+        credentialEntity.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         credentialEntity.setRole(Role.CLIENT);
         credentialEntity.setUser(clientService.save(clientEntity));
 
