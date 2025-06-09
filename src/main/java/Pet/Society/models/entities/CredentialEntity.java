@@ -13,6 +13,7 @@ public class CredentialEntity {
     @Column(unique = true)
     private String username;
     private String password;
+    @Enumerated
     private Role role;
 
 

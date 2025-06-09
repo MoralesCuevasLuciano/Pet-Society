@@ -25,9 +25,8 @@ public class DiagnosesController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<DiagnosesEntity> createDiagnosis(@RequestBody DiagnosesDTO dto) {
-        DiagnosesEntity savedDiagnosis = diagnosesService.save(dto);
-        return new ResponseEntity<>(savedDiagnosis, HttpStatus.CREATED);
+    public ResponseEntity<DiagnosesDTO> createDiagnosis(@RequestBody DiagnosesDTO dto) {
+        return new ResponseEntity<>(this.diagnosesService.save(dto), HttpStatus.CREATED);
     }
 
     @GetMapping("/findById/{id}")

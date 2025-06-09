@@ -26,5 +26,11 @@ public class RegisterController {
         registerService.registerNewAdmin(dto);
         return ResponseEntity.ok("Successfully registered admin");
     }
+
+    @PostMapping("/new/doctor")
+    public ResponseEntity<String> registerDoctor(@Valid @RequestBody RegisterDTO dto) {
+        registerService.registerNewDoctor(dto);
+        return ResponseEntity.ok("Successfully registered doctor");
+    }
 }
 

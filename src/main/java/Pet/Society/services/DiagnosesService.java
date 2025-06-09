@@ -14,6 +14,7 @@ import Pet.Society.repositories.AppointmentRepository;
 import Pet.Society.repositories.DiagnosesRepository;
 import Pet.Society.repositories.DoctorRepository;
 import Pet.Society.repositories.PetRepository;
+import com.github.javafaker.App;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,19 +31,22 @@ public class DiagnosesService {
     private final PetRepository petRepository;
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
+    private final AppointmentService appointmentService;
 
     @Autowired
     public DiagnosesService(DiagnosesRepository diagnosesRepository,
                             PetRepository petRepository,
                             DoctorRepository doctorRepository,
-                            AppointmentRepository appointmentRepository) {
+                            AppointmentRepository appointmentRepository,
+                            AppointmentService appointmentService) {
         this.diagnosesRepository = diagnosesRepository;
         this.petRepository = petRepository;
         this.doctorRepository = doctorRepository;
         this.appointmentRepository = appointmentRepository;
+        this.appointmentService = appointmentService;
     }
 
-    public DiagnosesEntity save(DiagnosesDTO dto) {
+    public DiagnosesDTO save(DiagnosesDTO dto) {
 
         AppointmentEntity appointment = appointmentRepository.findById(dto.getAppointmentId())
                 .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
@@ -54,11 +58,15 @@ public class DiagnosesService {
         DiagnosesEntity diagnosis = new DiagnosesEntity(
                 dto.getDiagnose(),
                 dto.getTreatment(),
+                appointment.getDoctor(),
+                appointment.getPet(),
                 appointment,
                 dto.getDate()
         );
 
-        return diagnosesRepository.save(diagnosis);
+        appointment.setDiagnoses(diagnosis);
+        this.diagnosesRepository.save(diagnosis);
+        return dto;
     }
 
     public DiagnosesEntity findById(Long id) {
@@ -131,9 +139,8 @@ public class DiagnosesService {
         Random random = new Random();
 
         for (AppointmentEntity appointment : appointments) {
-            // Verifica si ya existe un diagnóstico para la cita
             if (diagnosesRepository.findByAppointment(appointment).isPresent()) {
-                continue; // Si ya hay, no asigna
+                continue;
             }
 
             String[] posiblesDiagnosticos = {"Gripe", "Fractura", "Alergia", "Infección"};
@@ -145,16 +152,19 @@ public class DiagnosesService {
             PetEntity pet = pets.get(random.nextInt(pets.size()));
             LocalDateTime date = LocalDateTime.now().minusDays(random.nextInt(30));
 
-            DiagnosesEntity diagnosis = new DiagnosesEntity(
-                diagnose,
-                treatment,
-                doctor,
-                pet,
-                appointment,
-                date
+            DiagnosesEntity diagnoses = new DiagnosesEntity(
+                    diagnose,
+                    treatment,
+                    doctor,
+                    pet,
+                    appointment,
+                    date
             );
-            diagnosesRepository.save(diagnosis);
+
+            diagnosesRepository.save(diagnoses);
         }
     }
+
+
 
 }

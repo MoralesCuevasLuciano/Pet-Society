@@ -64,7 +64,7 @@ public class AppointmentService {
         if (findAppointment.getPet() != null) {
             throw new UnavailableAppointmentException("This appointment is already booked");
         }
-        if(findAppointment.isApproved()) {
+        if(!findAppointment.isApproved()) {
             throw new UnavailableAppointmentException("The client has an unpaid appointment");
         }
 

@@ -1,15 +1,19 @@
 package Pet.Society.services;
 
+import Pet.Society.models.dto.DoctorDTO;
+import Pet.Society.models.dto.RegisterDTO;
 import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.enums.Speciality;
 import Pet.Society.models.exceptions.UserExistsException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.DoctorRepository;
+import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -17,6 +21,8 @@ public class DoctorService  {
 
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private RegisterService registerService;
 
     public DoctorEntity save(DoctorEntity doctor) {
         if(!doctorExistByDni(doctor.getDni()))
@@ -80,14 +86,22 @@ public class DoctorService  {
 
 
     public List<DoctorEntity> addDoctors() {
-        List<DoctorEntity> doctors = List.of(
-            new DoctorEntity("Juan", "Pérez", "123456789", "12345678", "juan.perez@email.com", Speciality.GENERAL_MEDICINE),
-            new DoctorEntity("Ana", "García", "987654321", "87654321", "ana.garcia@email.com", Speciality.INTERNAL_MEDICINE),
-            new DoctorEntity("Luis", "Martínez", "112233445", "11223344", "luis.martinez@email.com", Speciality.NUTRITION),
-            new DoctorEntity("María", "López", "554433221", "44332211", "maria.lopez@email.com", Speciality.GENERAL_MEDICINE),
-            new DoctorEntity("Carlos", "Sánchez", "667788990", "55667788", "carlos.sanchez@email.com", Speciality.INTERNAL_MEDICINE)
-        );
-        doctorRepository.saveAll(doctors);
+        List<DoctorEntity> doctors = new ArrayList<>();
+        Faker faker = new Faker();
+        Speciality[] specialities = Speciality.values();
+
+        for (int i = 1; i <= 3; i++) {
+            RegisterDTO dto = new RegisterDTO();
+            dto.setName(faker.name().firstName());
+            dto.setSurname(faker.name().lastName());
+            dto.setPhone(faker.phoneNumber().cellPhone());
+            dto.setDni(String.valueOf(faker.number().numberBetween(10000000, 99999999)));
+            dto.setEmail(faker.internet().emailAddress());
+            dto.setUsername(faker.name().username());
+            dto.setPassword(faker.internet().password());
+
+            registerService.registerNewDoctor(dto);
+        }
         return doctors;
     }
 
