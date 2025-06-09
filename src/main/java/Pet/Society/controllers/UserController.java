@@ -10,10 +10,19 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 import java.util.Map;
 
+@Tag(
+        name = "User",
+        description = "Controller for managing users"
+)
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -21,45 +30,88 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /**Create*/
+    @Operation(
+            summary = "Create new user",
+            description = "Creates a new user entity in the system.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "User created successfully",
+                            content = @Content(schema = @Schema(implementation = UserEntity.class))
+                    )
+            }
+    )
     @PostMapping("/create")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
         UserEntity savedUser = userService.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-
-    /**Update*/
+    @Operation(
+            summary = "Update user",
+            description = "Updates a user entity by ID.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "User updated successfully",
+                            content = @Content(schema = @Schema(implementation = UserEntity.class))
+                    )
+            }
+    )
     @PatchMapping("/update/{id}")
     public ResponseEntity<UserEntity> update(@Valid @RequestBody UserEntity user, @PathVariable long id) {
-        this.userService.update(user,id);
+        this.userService.update(user, id);
         return ResponseEntity.ok(user);
-
     }
 
-
-    /**delete false active*/
+    @Operation(
+            summary = "Unsubscribe user",
+            description = "Marks a user as inactive by ID.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "User unsubscribed successfully",
+                            content = @Content(schema = @Schema(implementation = String.class))
+                    )
+            }
+    )
     @PatchMapping("/delete/{id}")
     public ResponseEntity<String> unsubscribe(@PathVariable long id) {
         this.userService.unSubscribe(id);
         return ResponseEntity.status(HttpStatus.OK).body("User unsubscribed successfully");
-
     }
 
-    /**volver a suscribir*/
+    @Operation(
+            summary = "Resubscribe user",
+            description = "Reactivates a previously unsubscribed user by ID.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "User resubscribed successfully",
+                            content = @Content(schema = @Schema(implementation = String.class))
+                    )
+            }
+    )
     @PatchMapping("/resubscribe/{id}")
     public ResponseEntity<String> resubscribe(@PathVariable long id) {
         this.userService.reSubscribe(id);
         return ResponseEntity.status(HttpStatus.OK).body("User resubscribed successfully");
     }
 
-
-
-    /**Find by ROL ADMIN*/
+    @Operation(
+            summary = "Get all users with ADMIN role",
+            description = "Returns a list of users with the ADMIN role.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "List of admin users retrieved successfully",
+                            content = @Content(schema = @Schema(implementation = UserEntity.class))
+                    )
+            }
+    )
     @GetMapping("/admin")
     public ResponseEntity<List<UserEntity>> getAdmins() {
         List<UserEntity> admins = userService.findByRole();
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
-
 }
