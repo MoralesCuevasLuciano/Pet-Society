@@ -25,5 +25,7 @@ public class RegisterController {
         registerService.registerNewAdmin(dto);
         return ResponseEntity.ok("Successfully registered admin");
     }
+
+
 }
 

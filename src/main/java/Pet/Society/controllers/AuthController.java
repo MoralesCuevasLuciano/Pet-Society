@@ -2,6 +2,7 @@ package Pet.Society.controllers;
 
 import Pet.Society.models.dto.LoginDTO;
 import Pet.Society.models.dto.LoginResponseDTO;
+import Pet.Society.services.AuthService;
 import Pet.Society.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,34 +22,16 @@ public class AuthController {
     // For example, you can add methods for registration, password reset, etc.
     // Currently, it serves as a placeholder for future authentication-related functionality.
 
-    private AuthenticationManager authenticationManager;
-
-    private JwtService jwtService;
-
-    private UserDetailsService userDetailsService;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, UserDetailsService userDetailsService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO request){
-
-
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword())
-        );
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-
-        String token = jwtService.generateToken(userDetails);
-
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(authService.login(request));
     }
 
 

@@ -29,12 +29,19 @@ import java.util.List;
 
 public class SecurityConfig {
 
-    @Autowired
+
     private JwtAuthFilter jwtAuthFilter;
-    @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
-    @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Autowired
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter,
+                          CustomAccessDeniedHandler customAccessDeniedHandler,
+                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
