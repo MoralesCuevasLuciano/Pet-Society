@@ -41,10 +41,12 @@ public class AppointmentService {
     public AppointmentEntity save (AppointmentDTO appointmentDTO) {
         DoctorEntity findDoctor = this.doctorService.findById(appointmentDTO.getDoctor().getId());
 
-        AppointmentEntity appointment = new AppointmentEntity(appointmentDTO.getStartTime()
+
+        AppointmentEntity appointment = new AppointmentEntity(
+                appointmentDTO.getStartTime()
                 , appointmentDTO.getEndTime(),
                 appointmentDTO.getReason(),
-                Status.TO_BEGIN,
+                Status.AVAILABLE,
                 findDoctor,true);
         if (isOverlapping(appointment)) {
             throw new DuplicatedAppointmentException("The appointment already exists; it has the same hour.");
