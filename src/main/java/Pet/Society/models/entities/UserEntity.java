@@ -48,11 +48,11 @@ public class UserEntity {
     }
 
     public UserEntity(String name, String surname, String phone, String dni, String email) {
-        this.name = this.name;
-        this.surname = this.surname;
-        this.phone = this.phone;
-        this.dni = this.dni;
-        this.email = this.email;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.dni = dni;
+        this.email = email;
     }
 
     public UserEntity() {
