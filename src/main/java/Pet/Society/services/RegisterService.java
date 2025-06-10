@@ -73,7 +73,7 @@ public class RegisterService {
         doctorEntity.setDni(registerDTO.getDni());
         doctorEntity.setEmail(registerDTO.getEmail());
         doctorEntity.setPhone(registerDTO.getPhone());
-
+        doctorEntity.setSpeciality(registerDTO.getSpeciality());
         CredentialEntity credentialEntity = new CredentialEntity();
         credentialEntity.setUsername(registerDTO.getUsername());
         credentialEntity.setPassword(registerDTO.getPassword());

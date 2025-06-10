@@ -132,38 +132,41 @@ public class DiagnosesService {
 
 
 
-    public void assignRandomDiagnosesToAppointments() {
-        List<AppointmentEntity> appointments = appointmentRepository.findAll();
-        List<DoctorEntity> doctors = doctorRepository.findAll();
-        List<PetEntity> pets = petRepository.findAll();
-        Random random = new Random();
+   public void assignRandomDiagnosesToAppointments() {
+       List<AppointmentEntity> appointments = appointmentRepository.findAll();
+       List<DoctorEntity> doctors = doctorRepository.findAll();
+       List<PetEntity> pets = petRepository.findAll();
+       Random random = new Random();
 
-        for (AppointmentEntity appointment : appointments) {
-            if (diagnosesRepository.findByAppointment(appointment).isPresent()) {
-                continue;
-            }
+       for (AppointmentEntity appointment : appointments) {
+           if (diagnosesRepository.findByAppointment(appointment).isPresent()) {
+               continue;
+           }
 
-            String[] posiblesDiagnosticos = {"Gripe", "Fractura", "Alergia", "Infección"};
-            String[] posiblesTratamientos = {"Reposo", "Antibióticos", "Cirugía", "Vacuna"};
+           String[] posiblesDiagnosticos = {"Gripe", "Fractura", "Alergia", "Infección"};
+           String[] posiblesTratamientos = {"Reposo", "Antibióticos", "Cirugía", "Vacuna"};
 
-            String diagnose = posiblesDiagnosticos[random.nextInt(posiblesDiagnosticos.length)];
-            String treatment = posiblesTratamientos[random.nextInt(posiblesTratamientos.length)];
-            DoctorEntity doctor = doctors.get(random.nextInt(doctors.size()));
-            PetEntity pet = pets.get(random.nextInt(pets.size()));
-            LocalDateTime date = LocalDateTime.now().minusDays(random.nextInt(30));
+           String diagnose = posiblesDiagnosticos[random.nextInt(posiblesDiagnosticos.length)];
+           String treatment = posiblesTratamientos[random.nextInt(posiblesTratamientos.length)];
+           DoctorEntity doctor = doctors.get(random.nextInt(doctors.size()));
+           PetEntity pet = pets.get(random.nextInt(pets.size()));
+           LocalDateTime date = LocalDateTime.now().minusDays(random.nextInt(30));
 
-            DiagnosesEntity diagnoses = new DiagnosesEntity(
-                    diagnose,
-                    treatment,
-                    doctor,
-                    pet,
-                    appointment,
-                    date
-            );
+           DiagnosesEntity diagnoses = new DiagnosesEntity(
+                   diagnose,
+                   treatment,
+                   doctor,
+                   pet,
+                   appointment,
+                   date
+           );
 
-            diagnosesRepository.save(diagnoses);
-        }
-    }
+           diagnosesRepository.save(diagnoses);
+
+           appointment.setDiagnoses(diagnoses);
+           appointmentRepository.save(appointment);
+       }
+   }
 
 
 

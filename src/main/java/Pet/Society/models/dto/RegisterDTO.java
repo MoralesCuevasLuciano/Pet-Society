@@ -1,5 +1,8 @@
 package Pet.Society.models.dto;
 
+import Pet.Society.models.enums.Speciality;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,6 +29,9 @@ public class RegisterDTO {
     @Email
     @NotNull
     private String email;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Speciality speciality;
 
     public RegisterDTO() {
     }
@@ -101,5 +107,14 @@ public class RegisterDTO {
     public RegisterDTO setEmail(String email) {
         this.email = email;
         return this;
+    }
+
+
+    public void setSpeciality(Speciality speciality) {
+        this.speciality = speciality;
+    }
+
+    public Speciality getSpeciality() {
+        return this.speciality;
     }
 }

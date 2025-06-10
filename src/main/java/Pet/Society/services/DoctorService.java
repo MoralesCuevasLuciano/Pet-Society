@@ -99,6 +99,7 @@ public class DoctorService  {
             dto.setEmail(faker.internet().emailAddress());
             dto.setUsername(faker.name().username());
             dto.setPassword(faker.internet().password());
+            dto.setSpeciality(specialities[faker.number().numberBetween(0, specialities.length)]);
 
             registerService.registerNewDoctor(dto);
         }
