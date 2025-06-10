@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("register")
+@RequestMapping("/register")
 public class RegisterController {
 
     @Autowired
@@ -25,5 +25,7 @@ public class RegisterController {
         registerService.registerNewAdmin(dto);
         return ResponseEntity.ok("Successfully registered admin");
     }
+
+
 }
 

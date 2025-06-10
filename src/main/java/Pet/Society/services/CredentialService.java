@@ -2,17 +2,21 @@ package Pet.Society.services;
 
 import Pet.Society.models.entities.CredentialEntity;
 import Pet.Society.repositories.CredentialRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CredentialService {
+public class CredentialService implements UserDetailsService {
 
     private final CredentialRepository credentialRepository;
 
-
+    @Autowired
     public CredentialService(CredentialRepository credentialRepository) {
         this.credentialRepository = credentialRepository;
     }
@@ -38,4 +42,9 @@ public class CredentialService {
         return credentialRepository.findByUsernameAndPassword(username, password);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return credentialRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    }
 }
