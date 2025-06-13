@@ -2,6 +2,7 @@ package Pet.Society.services;
 
 import Pet.Society.models.dto.PetDTO;
 import Pet.Society.models.entities.ClientEntity;
+import Pet.Society.models.entities.CredentialEntity;
 import Pet.Society.models.entities.PetEntity;
 import Pet.Society.models.exceptions.PetNotFoundException;
 import Pet.Society.models.exceptions.UserNotFoundException;
@@ -11,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -66,8 +69,14 @@ public class PetService {
 
     public PetEntity getPetById(Long id) {
         return petRepository.findById(id)
-                .orElseThrow(() -> new PetNotFoundException("La mascota con el ID: " + id + " no existe."));
+                .orElseThrow(() -> new PetNotFoundException("the pet doesn't exist with ID: " + id));
 
+    }
+
+    public Optional<ClientEntity> getOwnerByPetId(Long id) {
+        PetEntity pet = petRepository.findById(id)
+                .orElseThrow(() -> new PetNotFoundException("The pet doesn't exist with ID: " + id));
+        return Optional.ofNullable(pet.getClient());
     }
 
     public boolean existsPetById(Long id) {

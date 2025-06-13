@@ -79,17 +79,15 @@ public class DiagnosesService {
     }
 
     public Page<DiagnosesDTOResponse> findByPetId(long id, Pageable pageable) {
-        if (diagnosesRepository.findByPetId(id, pageable) != null) {
-
-            return diagnosesRepository.findByPetId(id,pageable).map(diagnosesEntity -> new DiagnosesDTOResponse(diagnosesEntity.getDiagnose(),
-                    diagnosesEntity.getTreatment(),
-                    diagnosesEntity.getDoctor().getId(),
-                    diagnosesEntity.getPet().getId(),
-                    diagnosesEntity.getAppointment().getId(),
-                    diagnosesEntity.getDate()));
-        }else {
+        if (diagnosesRepository.findByPetId(id, pageable).isEmpty()) {
             throw new DiagnosesNotFoundException("Diagnoses of Pet id : " + id + " not found");
         }
+        return diagnosesRepository.findByPetId(id,pageable).map(diagnosesEntity -> new DiagnosesDTOResponse(diagnosesEntity.getDiagnose(),
+                diagnosesEntity.getTreatment(),
+                diagnosesEntity.getDoctor().getId(),
+                diagnosesEntity.getPet().getId(),
+                diagnosesEntity.getAppointment().getId(),
+                diagnosesEntity.getDate()));
 
     }
 
