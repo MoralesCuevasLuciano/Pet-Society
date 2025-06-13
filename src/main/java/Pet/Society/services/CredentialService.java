@@ -38,9 +38,10 @@ public class CredentialService implements UserDetailsService {
     }
 
 
-    public Optional<CredentialEntity> findByUsernameAndPassword(String username, String password) {
-        return credentialRepository.findByUsernameAndPassword(username, password);
+    public Optional<CredentialEntity> findByUsername(String username) {
+        return credentialRepository.findByUsername(username);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

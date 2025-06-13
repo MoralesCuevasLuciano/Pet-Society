@@ -77,7 +77,7 @@ public class RegisterService {
         doctorEntity.setSpeciality(registerDTO.getSpeciality());
         CredentialEntity credentialEntity = new CredentialEntity();
         credentialEntity.setUsername(registerDTO.getUsername());
-        credentialEntity.setPassword(registerDTO.getPassword());
+        credentialEntity.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         credentialEntity.setRole(Role.DOCTOR);
         credentialEntity.setUser(doctorService.save(doctorEntity));
 

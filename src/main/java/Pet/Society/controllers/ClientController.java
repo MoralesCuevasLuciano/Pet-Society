@@ -145,7 +145,7 @@ public class ClientController {
     }
 
 
-    @GetMapping("/randomsClients")
+    @PostMapping("/randomsClients")
     public ResponseEntity<?> addClients() {
         clientService.addRandomClients();
         return ResponseEntity.status(HttpStatus.CREATED).body("Clientes aleatorios agregados correctamente");

@@ -77,6 +77,27 @@ public class RegisterController {
         return ResponseEntity.ok("Successfully registered admin");
     }
 
+    @Operation(
+            summary = "Register a new doctor user",
+            description = "Creates a new user with the DOCTOR role using the provided registration data.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Doctor registered successfully",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = String.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid input data",
+                            content = @Content(
+                                    mediaType = "application/json"
+                            )
+                    )
+            }
+    )
     @PostMapping("/new/doctor")
     public ResponseEntity<String> registerDoctor(@Valid @RequestBody RegisterDTO dto) {
         registerService.registerNewDoctor(dto);

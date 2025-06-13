@@ -30,7 +30,6 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
 
-    //prueba, es posible que se necesite un DTO
     @Operation(
             summary = "Create a new appointment",
             description = "Endpoint to create a new appointment with the necessary details",
@@ -79,6 +78,7 @@ public class AppointmentController {
         return ResponseEntity.ok(this.appointmentService.bookAppointment(appointmentId,pet));
     }
 
+
     @Operation(
             summary = "Update an appointment",
             description = "Endpoint to update an existing appointment by ID",
@@ -101,13 +101,6 @@ public class AppointmentController {
                     )
             }
     )
-    @DeleteMapping("/cancel/{id}")
-    public ResponseEntity<String> cancelAppointment(@PathVariable("id") Long appointmentId) {
-        this.appointmentService.cancelAppointment(appointmentId);
-        return ResponseEntity.ok("Appointment cancelled successfully");
-    }
-
-
     @PatchMapping("/update/{id}")
     public ResponseEntity<AppointmentEntity> updateAppointment(@PathVariable Long id, @RequestBody AppointmentUpdateDTO appointmentUpdateDTO) {
         AppointmentEntity appointment = this.appointmentService.updateAppointment(appointmentUpdateDTO, id);

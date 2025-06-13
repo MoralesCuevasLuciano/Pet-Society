@@ -137,7 +137,7 @@ public class DoctorController {
         return new ResponseEntity<>(doctor, HttpStatus.OK);
     }
 
-    @GetMapping("/addDoctors")
+    @PostMapping("/addDoctors")
     public ResponseEntity<List<DoctorEntity>> addDoctors() {
         return ResponseEntity.ok(this.doctorService.addDoctors());
     }

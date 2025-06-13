@@ -69,7 +69,8 @@ public class SecurityConfig {
                                     "/diagnoses/getLastDiagnoses/**",
                                     "/diagnoses/getAll",
                                     "/diagnoses/getByDoctorId/**").hasAnyRole("ADMIN","DOCTOR")
-                        .requestMatchers("/diagnoses/create","/diagnoses/update").hasRole("DOCTOR")
+                        .requestMatchers("/diagnoses/assignRandom").hasRole("ADMIN")
+                        .requestMatchers("/diagnoses/create").hasRole("DOCTOR")
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() //For use correctly the OPENAPI
                         .anyRequest().authenticated()
 

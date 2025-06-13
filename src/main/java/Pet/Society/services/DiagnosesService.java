@@ -6,6 +6,7 @@ import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.models.entities.DiagnosesEntity;
 import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.entities.PetEntity;
+import Pet.Society.models.enums.Status;
 import Pet.Society.models.exceptions.AppointmentNotFoundException;
 import Pet.Society.models.exceptions.DiagnosesNotFoundException;
 import Pet.Society.models.exceptions.DoctorNotFoundException;
@@ -63,7 +64,7 @@ public class DiagnosesService {
                 appointment,
                 dto.getDate()
         );
-
+        appointment.setStatus(Status.SUCCESSFULLY);
         appointment.setDiagnoses(diagnosis);
         this.diagnosesRepository.save(diagnosis);
         return dto;
