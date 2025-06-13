@@ -1,6 +1,7 @@
 package Pet.Society.services;
 
 
+import Pet.Society.models.dto.RegisterDTO;
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.CredentialEntity;
 import Pet.Society.models.entities.UserEntity;
@@ -9,10 +10,12 @@ import Pet.Society.models.exceptions.UserExistsException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.CredentialRepository;
 import Pet.Society.repositories.UserRepository;
+import com.github.javafaker.Faker;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +27,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private CredentialRepository credentialRepository;
+    @Autowired
+    private RegisterService registerService;
 
 
     /**Create*/
@@ -90,4 +95,26 @@ public class UserService {
                 .map(CredentialEntity::getUser)
                 .collect(Collectors.toList());
     }
+
+
+    public List<UserEntity> addRandomAdmins() {
+        List<UserEntity> admins = new ArrayList<>();
+        Faker faker = new Faker();
+
+        for (int i = 1; i <= 3; i++) {
+            RegisterDTO dto = new RegisterDTO();
+            dto.setName(faker.name().firstName());
+            dto.setSurname(faker.name().lastName());
+            dto.setPhone(faker.phoneNumber().cellPhone());
+            dto.setDni(String.valueOf(faker.number().numberBetween(10000000, 99999999)));
+            dto.setEmail(faker.internet().emailAddress());
+            dto.setUsername(faker.name().username());
+            dto.setPassword(faker.internet().password());
+
+            registerService.registerNewAdmin(dto);
+
+        }
+        return admins;
+    }
 }
+

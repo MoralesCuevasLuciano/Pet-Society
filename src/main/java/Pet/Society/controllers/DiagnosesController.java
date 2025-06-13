@@ -55,9 +55,8 @@ public class DiagnosesController {
             }
     )
     @PostMapping("/create")
-    public ResponseEntity<DiagnosesEntity> createDiagnosis(@RequestBody DiagnosesDTO dto) {
-        DiagnosesEntity savedDiagnosis = diagnosesService.save(dto);
-        return new ResponseEntity<>(savedDiagnosis, HttpStatus.CREATED);
+    public ResponseEntity<DiagnosesDTO> createDiagnosis(@RequestBody DiagnosesDTO dto) {
+        return new ResponseEntity<>(this.diagnosesService.save(dto), HttpStatus.CREATED);
     }
 
     @Operation(
@@ -170,6 +169,12 @@ public class DiagnosesController {
     @GetMapping("/getByDoctorId/{id}")
     public ResponseEntity<Page<DiagnosesDTOResponse>> getByDoctorId(@PathVariable long id, @PageableDefault(size = 10, page = 0) Pageable pageable) {
         return ResponseEntity.ok(diagnosesService.findByDoctorId(id, pageable));
+    }
+
+    @PostMapping("/assignRandom")
+    public ResponseEntity<String> assignRandomDiagnosesToAppointments() {
+        diagnosesService.assignRandomDiagnosesToAppointments();
+        return ResponseEntity.ok("Se asignaron diagnósticos aleatorios correctamente.");
     }
 
 }

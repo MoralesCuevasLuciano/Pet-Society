@@ -1,16 +1,22 @@
 package Pet.Society.services;
 
 
+import Pet.Society.models.dto.RegisterDTO;
 import Pet.Society.models.entities.ClientEntity;
+import Pet.Society.models.entities.CredentialEntity;
+import Pet.Society.models.enums.Role;
 import Pet.Society.models.exceptions.UserExistsException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import com.github.javafaker.Faker;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +25,8 @@ public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private RegisterService registerService;
 
     public ClientEntity save(ClientEntity client) {
         Optional<ClientEntity> clientEntity= this.clientRepository.findByDni(client.getDni());
@@ -68,5 +76,36 @@ public class ClientService {
         return origin;
     }
 
+
+
+    public List<ClientEntity> addRandomClients() {
+        List<ClientEntity> clients = new ArrayList<>();
+        Faker faker = new Faker();
+
+        for (int i = 1; i <= 3; i++) {
+            RegisterDTO dto = new RegisterDTO();
+            dto.setName(faker.name().firstName());
+            dto.setSurname(faker.name().lastName());
+            dto.setPhone(faker.phoneNumber().cellPhone());
+            dto.setDni(String.valueOf(faker.number().numberBetween(10000000, 99999999)));
+            dto.setEmail(faker.internet().emailAddress());
+            dto.setUsername(faker.name().username());
+            dto.setPassword(faker.internet().password());
+
+            registerService.registerNewClient(dto);
+
+
+        }
+        return clients;
+    }
+
+
+    public List<ClientEntity> getAllClients() {
+        List<ClientEntity> clients = this.clientRepository.findAll();
+        if (clients.isEmpty()) {
+            throw new UserNotFoundException("No clients found");
+        }
+        return clients;
+    }
 }
 

@@ -14,6 +14,7 @@ import Pet.Society.models.exceptions.DuplicatedAppointmentException;
 import Pet.Society.models.exceptions.UnavailableAppointmentException;
 import Pet.Society.repositories.AppointmentRepository;
 import Pet.Society.repositories.DoctorRepository;
+import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class AppointmentService {
@@ -32,6 +34,7 @@ public class AppointmentService {
     private PetService petService;
     @Autowired
     private ClientService clientService;
+
 
     //MAYBE IS THE CORRECT WAY.
     //Si ya existe la cita; Excepcion
@@ -63,7 +66,7 @@ public class AppointmentService {
         if (findAppointment.getPet() != null) {
             throw new UnavailableAppointmentException("This appointment is already booked");
         }
-        if(findAppointment.isApproved()) {
+        if(!findAppointment.isApproved()) {
             throw new UnavailableAppointmentException("The client has an unpaid appointment");
         }
 
@@ -158,4 +161,41 @@ public class AppointmentService {
         }
        return false;
     }
+
+    public void assignAppointmentToClient() {
+        List<ClientEntity> clients = clientService.getAllClients();
+        List<DoctorEntity> doctors = doctorService.getAllDoctors();
+        Random random = new Random();
+
+        for (ClientEntity client : clients) {
+            List<PetEntity> pets = client.getPets();
+            if (pets.isEmpty()) continue;
+
+            PetEntity pet = pets.get(random.nextInt(pets.size()));
+            DoctorEntity doctor = doctors.get(random.nextInt(doctors.size()));
+
+            LocalDateTime start = LocalDateTime.now().plusDays(random.nextInt(30) + 1);
+            LocalDateTime end = start.plusHours(1);
+
+            Reason randomReason = Reason.values()[random.nextInt(Reason.values().length)];
+            Status randomStatus = Status.values()[random.nextInt(Status.values().length)];
+
+            AppointmentEntity appointment = new AppointmentEntity(
+                start,
+                end,
+                randomReason,
+                randomStatus,
+                doctor,
+                true
+            );
+            appointment.setPet(pet);
+            appointment.setApproved(true);
+
+            appointmentRepository.save(appointment);
+        }
+    }
+
+
+
+
 }

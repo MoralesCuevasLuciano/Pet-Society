@@ -143,4 +143,14 @@ public class ClientController {
     public ResponseEntity<ClientEntity> findById(@PathVariable long id) {
         return ResponseEntity.ok(this.clientService.findById(id));
     }
+
+
+    @GetMapping("/randomsClients")
+    public ResponseEntity<?> addClients() {
+        clientService.addRandomClients();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Clientes aleatorios agregados correctamente");
+    }
+
+
+
 }

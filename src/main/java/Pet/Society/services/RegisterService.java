@@ -3,6 +3,7 @@ package Pet.Society.services;
 import Pet.Society.models.dto.RegisterDTO;
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.CredentialEntity;
+import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.entities.UserEntity;
 import Pet.Society.models.enums.Role;
 import Pet.Society.models.exceptions.UserAttributeException;
@@ -20,11 +21,12 @@ public class RegisterService {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private DoctorService doctorService;
+
 
 
     public void registerNewClient(RegisterDTO registerDTO) {
-
-
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setName(registerDTO.getName());
         clientEntity.setSurname(registerDTO.getSurname());
@@ -57,6 +59,27 @@ public class RegisterService {
         credentialEntity.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         credentialEntity.setRole(Role.ADMIN);
         credentialEntity.setUser(userService.save(userEntity));
+
+        credentialService.save(credentialEntity);
+    }
+
+    public void registerNewDoctor(RegisterDTO registerDTO) {
+        if (doctorService.doctorExistByDni(registerDTO.getDni())) {
+            throw new UserAttributeException("Doctor with this DNI already exists");
+        }
+
+        DoctorEntity doctorEntity = new DoctorEntity();
+        doctorEntity.setName(registerDTO.getName());
+        doctorEntity.setSurname(registerDTO.getSurname());
+        doctorEntity.setDni(registerDTO.getDni());
+        doctorEntity.setEmail(registerDTO.getEmail());
+        doctorEntity.setPhone(registerDTO.getPhone());
+        doctorEntity.setSpeciality(registerDTO.getSpeciality());
+        CredentialEntity credentialEntity = new CredentialEntity();
+        credentialEntity.setUsername(registerDTO.getUsername());
+        credentialEntity.setPassword(registerDTO.getPassword());
+        credentialEntity.setRole(Role.DOCTOR);
+        credentialEntity.setUser(doctorService.save(doctorEntity));
 
         credentialService.save(credentialEntity);
     }

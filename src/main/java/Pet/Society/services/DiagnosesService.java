@@ -14,10 +14,15 @@ import Pet.Society.repositories.AppointmentRepository;
 import Pet.Society.repositories.DiagnosesRepository;
 import Pet.Society.repositories.DoctorRepository;
 import Pet.Society.repositories.PetRepository;
+import com.github.javafaker.App;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class DiagnosesService {
@@ -26,19 +31,22 @@ public class DiagnosesService {
     private final PetRepository petRepository;
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
+    private final AppointmentService appointmentService;
 
     @Autowired
     public DiagnosesService(DiagnosesRepository diagnosesRepository,
                             PetRepository petRepository,
                             DoctorRepository doctorRepository,
-                            AppointmentRepository appointmentRepository) {
+                            AppointmentRepository appointmentRepository,
+                            AppointmentService appointmentService) {
         this.diagnosesRepository = diagnosesRepository;
         this.petRepository = petRepository;
         this.doctorRepository = doctorRepository;
         this.appointmentRepository = appointmentRepository;
+        this.appointmentService = appointmentService;
     }
 
-    public DiagnosesEntity save(DiagnosesDTO dto) {
+    public DiagnosesDTO save(DiagnosesDTO dto) {
 
         AppointmentEntity appointment = appointmentRepository.findById(dto.getAppointmentId())
                 .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
@@ -50,11 +58,15 @@ public class DiagnosesService {
         DiagnosesEntity diagnosis = new DiagnosesEntity(
                 dto.getDiagnose(),
                 dto.getTreatment(),
+                appointment.getDoctor(),
+                appointment.getPet(),
                 appointment,
                 dto.getDate()
         );
 
-        return diagnosesRepository.save(diagnosis);
+        appointment.setDiagnoses(diagnosis);
+        this.diagnosesRepository.save(diagnosis);
+        return dto;
     }
 
     public DiagnosesEntity findById(Long id) {
@@ -115,6 +127,43 @@ public class DiagnosesService {
         ));
     }
 
+
+
+   public void assignRandomDiagnosesToAppointments() {
+       List<AppointmentEntity> appointments = appointmentRepository.findAll();
+       List<DoctorEntity> doctors = doctorRepository.findAll();
+       List<PetEntity> pets = petRepository.findAll();
+       Random random = new Random();
+
+       for (AppointmentEntity appointment : appointments) {
+           if (diagnosesRepository.findByAppointment(appointment).isPresent()) {
+               continue;
+           }
+
+           String[] posiblesDiagnosticos = {"Gripe", "Fractura", "Alergia", "Infección"};
+           String[] posiblesTratamientos = {"Reposo", "Antibióticos", "Cirugía", "Vacuna"};
+
+           String diagnose = posiblesDiagnosticos[random.nextInt(posiblesDiagnosticos.length)];
+           String treatment = posiblesTratamientos[random.nextInt(posiblesTratamientos.length)];
+           DoctorEntity doctor = doctors.get(random.nextInt(doctors.size()));
+           PetEntity pet = pets.get(random.nextInt(pets.size()));
+           LocalDateTime date = LocalDateTime.now().minusDays(random.nextInt(30));
+
+           DiagnosesEntity diagnoses = new DiagnosesEntity(
+                   diagnose,
+                   treatment,
+                   doctor,
+                   pet,
+                   appointment,
+                   date
+           );
+
+           diagnosesRepository.save(diagnoses);
+
+           appointment.setDiagnoses(diagnoses);
+           appointmentRepository.save(appointment);
+       }
+   }
 
 
 

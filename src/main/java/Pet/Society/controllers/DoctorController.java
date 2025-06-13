@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.util.List;
+
 @Tag(
         name = "Doctor",
         description = "Controller for managing doctors"
@@ -133,5 +135,10 @@ public class DoctorController {
     public ResponseEntity<DoctorEntity> findByDNI (@PathVariable String dni){
         DoctorEntity doctor = doctorService.findByDni(dni);
         return new ResponseEntity<>(doctor, HttpStatus.OK);
+    }
+
+    @GetMapping("/addDoctors")
+    public ResponseEntity<List<DoctorEntity>> addDoctors() {
+        return ResponseEntity.ok(this.doctorService.addDoctors());
     }
 }

@@ -35,5 +35,7 @@ public class ClientEntity extends UserEntity {
     }
 
 
-
+    public List<PetEntity> getPets() {
+        return pets;
+    }
 }
