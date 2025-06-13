@@ -103,19 +103,18 @@ public class DiagnosesService {
     }
 
     public Page<DiagnosesDTOResponse> findByDoctorId(long id, Pageable pageable) {
-        if (diagnosesRepository.findByDoctorId(id, pageable) != null) {
-            return diagnosesRepository.findByDoctorId(id, pageable).map(diagnoses -> new DiagnosesDTOResponse(
-                    diagnoses.getDiagnose(),
-                    diagnoses.getTreatment(),
-                    diagnoses.getDoctor().getId(),
-                    diagnoses.getPet().getId(),
-                    diagnoses.getAppointment().getId(),
-                    diagnoses.getDate()
-            ));
-        }
-        else {
+
+        if (diagnosesRepository.findByDoctorId(id, pageable).isEmpty()) {
             throw new DiagnosesNotFoundException("Diagnoses of Doctor id : " + id + " not found");
         }
+        return diagnosesRepository.findByDoctorId(id, pageable).map(diagnoses -> new DiagnosesDTOResponse(
+                diagnoses.getDiagnose(),
+                diagnoses.getTreatment(),
+                diagnoses.getDoctor().getId(),
+                diagnoses.getPet().getId(),
+                diagnoses.getAppointment().getId(),
+                diagnoses.getDate()
+        ));
     }
 
 

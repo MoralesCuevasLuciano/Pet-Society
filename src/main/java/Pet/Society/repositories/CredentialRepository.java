@@ -15,4 +15,6 @@ public interface CredentialRepository extends JpaRepository<CredentialEntity, Lo
     Optional<CredentialEntity> findByUsernameAndPassword(String username, String password);
 
     Optional<CredentialEntity> findByUsername(String username);
+
+    List<CredentialEntity> findByRole(Role role);
 }
