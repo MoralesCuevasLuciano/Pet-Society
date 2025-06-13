@@ -31,34 +31,7 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @Operation(
-            summary = "Create a new client",
-            description = "Endpoint to create a new client in the system. The client must be active by default.",
-            responses = {
-                @ApiResponse(
-                        responseCode = "200",
-                        description = "Client created successfully",
-                        content = @Content(
-                                mediaType = "application/json",
-                                schema = @Schema(implementation = AppointmentEntity.class)
-                        )
-                ),
-                @ApiResponse(
-                        responseCode = "400",
-                        description = "Invalid input data",
-                        content = @Content(
-                                mediaType = "application/json",
-                                schema = @Schema(implementation = String.class)
-                        )
-                )
-            }
-    )
-    @PostMapping("/create")
-    public ResponseEntity<ClientEntity> createClient(@Valid @RequestBody ClientEntity client) {
-            ClientEntity clientEntity = clientService.save(client);
-            return new ResponseEntity<>(clientEntity, HttpStatus.CREATED);
 
-    }
 
 
     @Operation(

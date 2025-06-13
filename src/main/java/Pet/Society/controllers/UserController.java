@@ -30,22 +30,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Operation(
-            summary = "Create new user",
-            description = "Creates a new user entity in the system.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "201",
-                            description = "User created successfully",
-                            content = @Content(schema = @Schema(implementation = UserEntity.class))
-                    )
-            }
-    )
-    @PostMapping("/create")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-        UserEntity savedUser = userService.save(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-    }
 
     @Operation(
             summary = "Update user",
