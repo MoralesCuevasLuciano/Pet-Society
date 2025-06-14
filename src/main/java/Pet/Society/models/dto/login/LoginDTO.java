@@ -1,4 +1,4 @@
-package Pet.Society.models.dto;
+package Pet.Society.models.dto.login;
 
 import jakarta.validation.constraints.NotBlank;
 

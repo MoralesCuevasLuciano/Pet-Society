@@ -1,4 +1,4 @@
-package Pet.Society.models.dto;
+package Pet.Society.models.dto.register;
 
 import Pet.Society.models.enums.Speciality;
 import jakarta.persistence.EnumType;

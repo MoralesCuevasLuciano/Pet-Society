@@ -1,7 +1,7 @@
 package Pet.Society.controllers;
 
-import Pet.Society.models.dto.LoginDTO;
-import Pet.Society.models.dto.LoginResponseDTO;
+import Pet.Society.models.dto.login.LoginDTO;
+import Pet.Society.models.dto.login.LoginResponseDTO;
 import Pet.Society.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

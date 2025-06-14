@@ -1,18 +1,14 @@
 package Pet.Society.services;
 
 
-import Pet.Society.models.dto.RegisterDTO;
+import Pet.Society.models.dto.register.RegisterDTO;
 import Pet.Society.models.entities.ClientEntity;
-import Pet.Society.models.entities.CredentialEntity;
-import Pet.Society.models.enums.Role;
 import Pet.Society.models.exceptions.UserExistsException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.github.javafaker.Faker;
-import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.ArrayList;

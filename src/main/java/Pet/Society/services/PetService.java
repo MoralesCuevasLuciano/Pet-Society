@@ -1,16 +1,13 @@
 package Pet.Society.services;
 
-import Pet.Society.models.dto.PetDTO;
+import Pet.Society.models.dto.pet.PetDTO;
 import Pet.Society.models.entities.ClientEntity;
-import Pet.Society.models.entities.CredentialEntity;
 import Pet.Society.models.entities.PetEntity;
 import Pet.Society.models.exceptions.PetNotFoundException;
 import Pet.Society.models.exceptions.UserNotFoundException;
 import Pet.Society.repositories.ClientRepository;
 import Pet.Society.repositories.PetRepository;
 import com.github.javafaker.Faker;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

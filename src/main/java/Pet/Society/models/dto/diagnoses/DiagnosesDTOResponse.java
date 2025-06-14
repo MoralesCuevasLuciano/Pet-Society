@@ -1,4 +1,4 @@
-package Pet.Society.models.dto;
+package Pet.Society.models.dto.diagnoses;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

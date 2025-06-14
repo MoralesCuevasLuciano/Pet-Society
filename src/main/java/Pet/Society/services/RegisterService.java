@@ -1,6 +1,6 @@
 package Pet.Society.services;
 
-import Pet.Society.models.dto.RegisterDTO;
+import Pet.Society.models.dto.register.RegisterDTO;
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.CredentialEntity;
 import Pet.Society.models.entities.DoctorEntity;
@@ -23,8 +23,6 @@ public class RegisterService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private DoctorService doctorService;
-
-
 
     public void registerNewClient(RegisterDTO registerDTO) {
         ClientEntity clientEntity = new ClientEntity();

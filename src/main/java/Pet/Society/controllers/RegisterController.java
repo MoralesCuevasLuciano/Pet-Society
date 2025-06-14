@@ -1,6 +1,6 @@
 package Pet.Society.controllers;
 
-import Pet.Society.models.dto.RegisterDTO;
+import Pet.Society.models.dto.register.RegisterDTO;
 import Pet.Society.services.RegisterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

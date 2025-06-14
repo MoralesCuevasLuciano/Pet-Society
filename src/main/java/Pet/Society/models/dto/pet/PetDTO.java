@@ -1,8 +1,7 @@
-package Pet.Society.models.dto;
+package Pet.Society.models.dto.pet;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import org.aspectj.weaver.ast.Not;
 
 public class PetDTO {
     @NotNull

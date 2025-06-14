@@ -1,8 +1,8 @@
 package Pet.Society.services;
 
-import Pet.Society.models.dto.AppointmentDTO;
-import Pet.Society.models.dto.AppointmentUpdateDTO;
-import Pet.Society.models.dto.AssingmentPetDTO;
+import Pet.Society.models.dto.appointment.AppointmentDTO;
+import Pet.Society.models.dto.appointment.AppointmentUpdateDTO;
+import Pet.Society.models.dto.pet.AssingmentPetDTO;
 import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.models.entities.ClientEntity;
 import Pet.Society.models.entities.DoctorEntity;
@@ -13,10 +13,7 @@ import Pet.Society.models.exceptions.AppointmentDoesntExistException;
 import Pet.Society.models.exceptions.DuplicatedAppointmentException;
 import Pet.Society.models.exceptions.UnavailableAppointmentException;
 import Pet.Society.repositories.AppointmentRepository;
-import Pet.Society.repositories.DoctorRepository;
-import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

@@ -1,8 +1,7 @@
-package Pet.Society.models.dto;
+package Pet.Society.models.dto.appointment;
 
 import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.enums.Reason;
-import Pet.Society.services.DoctorService;
 
 import java.time.LocalDateTime;
 

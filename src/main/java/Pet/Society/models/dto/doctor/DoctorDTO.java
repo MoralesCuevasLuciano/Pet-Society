@@ -1,4 +1,4 @@
-package Pet.Society.models.dto;
+package Pet.Society.models.dto.doctor;
 
 import Pet.Society.models.enums.Speciality;
 import jakarta.validation.constraints.Email;

@@ -52,7 +52,7 @@ public class SecurityConfig {
                         //REGISTRARSE Y LOGUEARSE
                         .requestMatchers(HttpMethod.POST,"/register/new/client").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/register/newAdmin").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/register/new/admin").hasRole("ADMIN")
                         //ACCESS TO PETS
                         .requestMatchers("/pet/**").hasAnyRole("ADMIN","CLIENT")
                         //ACCESS TO CLIENTS

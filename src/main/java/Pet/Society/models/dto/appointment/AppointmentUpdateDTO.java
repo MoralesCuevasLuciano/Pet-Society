@@ -1,9 +1,7 @@
-package Pet.Society.models.dto;
+package Pet.Society.models.dto.appointment;
 
 import Pet.Society.models.enums.Reason;
 import Pet.Society.models.enums.Status;
-
-import java.time.LocalDateTime;
 
 public class AppointmentUpdateDTO {
     private Reason reason;

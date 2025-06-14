@@ -1,7 +1,6 @@
 package Pet.Society.controllers;
 
-import Pet.Society.models.dto.PetDTO;
-import Pet.Society.models.entities.ClientEntity;
+import Pet.Society.models.dto.pet.PetDTO;
 import Pet.Society.models.entities.PetEntity;
 import Pet.Society.services.PetService;
 import jakarta.validation.Valid;

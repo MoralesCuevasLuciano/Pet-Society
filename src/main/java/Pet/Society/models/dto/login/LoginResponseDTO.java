@@ -1,6 +1,4 @@
-package Pet.Society.models.dto;
-
-import Pet.Society.models.enums.Role;
+package Pet.Society.models.dto.login;
 
 public class LoginResponseDTO {
     private final String token;

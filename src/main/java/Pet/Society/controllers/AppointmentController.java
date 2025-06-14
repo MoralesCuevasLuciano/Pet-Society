@@ -1,11 +1,9 @@
 package Pet.Society.controllers;
 
-import Pet.Society.models.dto.AppointmentDTO;
-import Pet.Society.models.dto.AppointmentUpdateDTO;
-import Pet.Society.models.dto.AssingmentPetDTO;
+import Pet.Society.models.dto.appointment.AppointmentDTO;
+import Pet.Society.models.dto.appointment.AppointmentUpdateDTO;
+import Pet.Society.models.dto.pet.AssingmentPetDTO;
 import Pet.Society.models.entities.AppointmentEntity;
-import Pet.Society.models.entities.PetEntity;
-import Pet.Society.repositories.AppointmentRepository;
 import Pet.Society.services.AppointmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

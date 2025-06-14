@@ -1,7 +1,6 @@
 package Pet.Society.services;
 
-import Pet.Society.models.dto.DoctorDTO;
-import Pet.Society.models.dto.RegisterDTO;
+import Pet.Society.models.dto.register.RegisterDTO;
 import Pet.Society.models.entities.DoctorEntity;
 import Pet.Society.models.enums.Speciality;
 import Pet.Society.models.exceptions.UserExistsException;

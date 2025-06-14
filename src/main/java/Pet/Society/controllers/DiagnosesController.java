@@ -1,7 +1,7 @@
 package Pet.Society.controllers;
 
-import Pet.Society.models.dto.DiagnosesDTO;
-import Pet.Society.models.dto.DiagnosesDTOResponse;
+import Pet.Society.models.dto.diagnoses.DiagnosesDTO;
+import Pet.Society.models.dto.diagnoses.DiagnosesDTOResponse;
 import Pet.Society.models.entities.DiagnosesEntity;
 import Pet.Society.services.DiagnosesService;
 import io.swagger.v3.oas.annotations.Operation;

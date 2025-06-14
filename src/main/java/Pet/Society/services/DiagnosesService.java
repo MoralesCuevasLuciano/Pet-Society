@@ -1,7 +1,7 @@
 package Pet.Society.services;
 
-import Pet.Society.models.dto.DiagnosesDTO;
-import Pet.Society.models.dto.DiagnosesDTOResponse;
+import Pet.Society.models.dto.diagnoses.DiagnosesDTO;
+import Pet.Society.models.dto.diagnoses.DiagnosesDTOResponse;
 import Pet.Society.models.entities.AppointmentEntity;
 import Pet.Society.models.entities.DiagnosesEntity;
 import Pet.Society.models.entities.DoctorEntity;
@@ -9,13 +9,10 @@ import Pet.Society.models.entities.PetEntity;
 import Pet.Society.models.enums.Status;
 import Pet.Society.models.exceptions.AppointmentNotFoundException;
 import Pet.Society.models.exceptions.DiagnosesNotFoundException;
-import Pet.Society.models.exceptions.DoctorNotFoundException;
-import Pet.Society.models.exceptions.PetNotFoundException;
 import Pet.Society.repositories.AppointmentRepository;
 import Pet.Society.repositories.DiagnosesRepository;
 import Pet.Society.repositories.DoctorRepository;
 import Pet.Society.repositories.PetRepository;
-import com.github.javafaker.App;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
